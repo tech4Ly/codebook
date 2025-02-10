@@ -6,7 +6,6 @@ use serde::{Deserialize, Serialize};
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 use std::sync::RwLock;
 
 static CACHE_DIR: &str = "codebook";
@@ -71,9 +70,9 @@ impl<'de> Deserialize<'de> for ConfigSettings {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct CodebookConfig {
-    pub settings: Arc<RwLock<ConfigSettings>>,
+    settings: RwLock<ConfigSettings>,
     pub config_path: Option<PathBuf>,
     pub cache_dir: PathBuf,
 }
@@ -81,7 +80,7 @@ pub struct CodebookConfig {
 impl Default for CodebookConfig {
     fn default() -> Self {
         Self {
-            settings: Arc::new(RwLock::new(ConfigSettings::default())),
+            settings: RwLock::new(ConfigSettings::default()),
             config_path: None,
             cache_dir: env::temp_dir().join(CACHE_DIR),
         }
@@ -97,6 +96,35 @@ impl CodebookConfig {
 
     pub fn new_no_file() -> Self {
         Self::default()
+    }
+
+    pub fn clean_cache(&self) {
+        let dir_path = self.cache_dir.clone();
+        // Check if the path exists and is a directory
+        if !dir_path.is_dir() {
+            return;
+        }
+
+        // Read directory entries
+        for entry in fs::read_dir(dir_path).unwrap() {
+            let path = entry.unwrap().path();
+
+            if path.is_dir() {
+                // If it's a directory, recursively remove it
+                fs::remove_dir_all(path).unwrap();
+            } else {
+                // If it's a file, remove it
+                fs::remove_file(path).unwrap();
+            }
+        }
+    }
+
+    pub fn get_dictionary_ids(&self) -> Vec<String> {
+        let ids = self.settings.read().unwrap().dictionaries.clone();
+        if ids.is_empty() {
+            return vec!["en_us".to_string()];
+        }
+        ids
     }
 
     pub fn reload(&self) -> Result<bool> {
@@ -233,7 +261,7 @@ impl CodebookConfig {
 
         let settings: ConfigSettings = toml::from_str(&content)
             .with_context(|| format!("Failed to parse config file: {}", path.display()))?;
-        let settings_arc = Arc::new(RwLock::new(settings));
+        let settings_arc = RwLock::new(settings);
         // Store the config file path
         let config = Self {
             settings: settings_arc,

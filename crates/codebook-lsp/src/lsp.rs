@@ -2,7 +2,8 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use codebook::dictionary::{SpellCheckResult, TextRange};
+use codebook::parser::TextRange;
+use codebook::parser::WordLocation;
 use codebook::queries::LanguageType;
 use serde_json::Value;
 use tower_lsp::jsonrpc::Result as RpcResult;
@@ -17,7 +18,6 @@ use crate::file_cache::TextDocumentCache;
 
 const SOURCE_NAME: &str = "Codebook";
 
-#[derive(Debug)]
 pub struct Backend {
     pub client: Client,
     pub codebook: Codebook,
@@ -97,6 +97,14 @@ impl LanguageServer for Backend {
         if let Some(text) = params.text {
             self.document_cache.update(&params.text_document.uri, &text);
             self.spell_check(&params.text_document.uri).await;
+        }
+    }
+
+    async fn did_change(&self, params: DidChangeTextDocumentParams) {
+        let uri = params.text_document.uri;
+        if let Some(change) = params.content_changes.first() {
+            self.document_cache.update(&uri, &change.text);
+            self.spell_check(&uri).await;
         }
     }
 
@@ -182,16 +190,16 @@ impl Backend {
             document_cache: TextDocumentCache::new(),
         }
     }
-    fn make_diagnostic(&self, result: &SpellCheckResult, range: &TextRange) -> Diagnostic {
+    fn make_diagnostic(&self, result: &WordLocation, range: &TextRange) -> Diagnostic {
         let message = format!("Possible spelling issue '{}'.", result.word);
         Diagnostic {
             range: Range {
                 start: Position {
-                    line: range.start_line,
+                    line: range.line,
                     character: range.start_char,
                 },
                 end: Position {
-                    line: range.end_line,
+                    line: range.line,
                     character: range.end_char,
                 },
             },
