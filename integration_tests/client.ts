@@ -1,5 +1,5 @@
-import { type ChildProcess, spawn } from "child_process";
-import { EventEmitter } from "events";
+import { type ChildProcess, spawn } from "node:child_process";
+import { EventEmitter } from "node:events";
 
 interface Message {
   jsonrpc: "2.0";

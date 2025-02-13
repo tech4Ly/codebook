@@ -13,5 +13,5 @@ fn test_suggestions() {
     let processor = get_processor();
     let suggestions = processor.get_suggestions("testz");
     println!("Suggestion words: {suggestions:?}");
-    assert!(suggestions.len() != 0);
+    assert!(suggestions.unwrap().len() != 0);
 }

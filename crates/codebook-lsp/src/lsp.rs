@@ -140,7 +140,11 @@ impl LanguageServer for Backend {
                 .await
                 .unwrap();
 
-            suggestions.iter().for_each(|suggestion| {
+            if suggestions.is_none() {
+                return Ok(None);
+            }
+
+            suggestions.unwrap().iter().for_each(|suggestion| {
                 actions.push(CodeActionOrCommand::CodeAction(self.make_suggestion(
                     suggestion,
                     &diag.range,

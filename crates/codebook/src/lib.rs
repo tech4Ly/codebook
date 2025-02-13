@@ -95,12 +95,19 @@ impl Codebook {
         return self.spell_check(&file_text, Some(lang_type), None);
     }
 
-    pub fn get_suggestions(&self, word: &str) -> Vec<String> {
+    pub fn get_suggestions(&self, word: &str) -> Option<Vec<String>> {
         let dictionaries = self.get_dictionaries(None);
         let mut suggestions = Vec::new();
+        let mut is_misspelled = false;
         for dict in dictionaries {
-            suggestions.extend(dict.suggest(word));
+            if !dict.check(word) {
+                is_misspelled = true;
+                suggestions.extend(dict.suggest(word));
+            }
         }
-        suggestions.iter().take(5).cloned().collect()
+        if is_misspelled {
+            return Some(suggestions.iter().take(5).cloned().collect());
+        }
+        None
     }
 }
