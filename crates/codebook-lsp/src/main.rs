@@ -1,11 +1,11 @@
 mod file_cache;
 mod lsp;
-use std::path::{Path, PathBuf};
-
 use clap::{Parser, Subcommand};
 use codebook_config::CodebookConfig;
 use log::info;
 use lsp::Backend;
+use std::path::{Path, PathBuf};
+use tokio::task;
 use tower_lsp::{LspService, Server};
 
 #[derive(Parser)]
@@ -55,6 +55,11 @@ async fn main() {
 async fn serve_lsp(root: &PathBuf) {
     info!("Starting Codebook Language Server...");
     let (stdin, stdout) = (tokio::io::stdin(), tokio::io::stdout());
-    let (service, socket) = LspService::new(|client| Backend::new(client, root));
+    let inner_root = root.clone();
+    let (service, socket) =
+        task::spawn_blocking(move || LspService::new(|client| Backend::new(client, &inner_root)))
+            .await
+            .unwrap();
+    // let (service, socket) = LspService::new(|client| Backend::new(client, root));
     Server::new(stdin, stdout, socket).serve(service).await;
 }

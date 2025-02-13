@@ -32,8 +32,9 @@ export class LSPTestClient extends EventEmitter {
   async start(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        this.process = spawn(this.serverPath, {
+        this.process = spawn(this.serverPath, ["serve"], {
           stdio: ["pipe", "pipe", "pipe"],
+          env: { RUST_BACKTRACE: "1" },
         });
 
         this.process.stdout?.on("data", (data) => this.handleData(data));

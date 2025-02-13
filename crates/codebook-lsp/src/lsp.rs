@@ -6,6 +6,7 @@ use codebook::parser::TextRange;
 use codebook::parser::WordLocation;
 use codebook::queries::LanguageType;
 use serde_json::Value;
+use tokio::task;
 use tower_lsp::jsonrpc::Result as RpcResult;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer};
@@ -20,7 +21,8 @@ const SOURCE_NAME: &str = "Codebook";
 
 pub struct Backend {
     pub client: Client,
-    pub codebook: Codebook,
+    // Wrap every call to codebook in spawn_blocking, it's not async
+    pub codebook: Arc<Codebook>,
     pub config: Arc<CodebookConfig>,
     pub document_cache: TextDocumentCache,
 }
@@ -118,7 +120,7 @@ impl LanguageServer for Backend {
             None => return Ok(None),
         };
 
-        params.context.diagnostics.iter().for_each(|diag| {
+        for diag in params.context.diagnostics {
             let line = doc
                 .text
                 .lines()
@@ -129,10 +131,15 @@ impl LanguageServer for Backend {
             let word = if start_char < line.len() && end_char <= line.len() {
                 &line[start_char..end_char]
             } else {
-                return;
+                continue;
             };
 
-            let suggestions = self.codebook.get_suggestions(word);
+            let cb = self.codebook.clone();
+            let inner_word = word.to_string();
+            let suggestions = task::spawn_blocking(move || cb.get_suggestions(&inner_word))
+                .await
+                .unwrap();
+
             suggestions.iter().for_each(|suggestion| {
                 actions.push(CodeActionOrCommand::CodeAction(self.make_suggestion(
                     suggestion,
@@ -154,7 +161,7 @@ impl LanguageServer for Backend {
                 disabled: None,
                 data: None,
             }));
-        });
+        }
 
         Ok(Some(actions))
     }
@@ -182,7 +189,9 @@ impl Backend {
     pub fn new(client: Client, workspace_dir: &PathBuf) -> Self {
         let config = CodebookConfig::load_from_dir(workspace_dir).expect("Unable to make config.");
         let config_arc = Arc::new(config);
-        let codebook = Codebook::new(Arc::clone(&config_arc)).expect("Unable to make codebook");
+        let cb_config = Arc::clone(&config_arc);
+        let codebook = Arc::new(Codebook::new(cb_config).expect("Unable to make codebook"));
+
         Self {
             client,
             codebook,
@@ -308,11 +317,14 @@ impl Backend {
             Some(lang) => Some(LanguageType::from_str(lang)),
             _ => None,
         };
-        let spell_results = self.codebook.spell_check(
-            &doc.text,
-            lang_type,
-            Some(file_path.to_str().unwrap_or_default()),
-        );
+
+        let cb = self.codebook.clone();
+        let fp = file_path.clone();
+        let spell_results = task::spawn_blocking(move || {
+            cb.spell_check(&doc.text, lang_type, Some(fp.to_str().unwrap_or_default()))
+        })
+        .await
+        .unwrap();
 
         // 2) Convert the results to LSP diagnostics.
         let diagnostics: Vec<Diagnostic> = spell_results
