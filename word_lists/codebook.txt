@@ -17,6 +17,7 @@ htm
 jsx
 linter
 linux
+lru
 lsp
 macos
 msvc
@@ -24,10 +25,12 @@ pbkdf
 pc
 prerelease
 pst
+redownload
 roadmap
 rpc
 semibold
 sha
+ssl
 tsx
 ttf
 typescript
@@ -36,5 +39,3 @@ uncomment
 validator
 validators
 webp
-redownload
-LRU

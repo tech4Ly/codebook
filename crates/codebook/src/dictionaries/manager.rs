@@ -89,7 +89,7 @@ impl DictionaryManager {
                 return None;
             }
         };
-        let dict = TextDictionary::new(text_path.to_str().unwrap());
+        let dict = TextDictionary::new_from_path(&text_path);
         Some(Arc::new(dict))
     }
 }

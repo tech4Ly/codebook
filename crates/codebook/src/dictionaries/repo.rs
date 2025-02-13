@@ -42,47 +42,54 @@ pub enum DictionaryRepo {
     Text(TextRepo),
 }
 
-static DICTIONARIES: LazyLock<Vec<DictionaryRepo>> = LazyLock::new(|| {
-    vec![DictionaryRepo::Hunspell(
+static HUNSPELL_DICTIONARIES: LazyLock<Vec<HunspellRepo>> = LazyLock::new(|| {
+    vec![
     HunspellRepo::new(
         "en_us",
         "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/refs/heads/main/dictionaries/en_US/src/hunspell/en_US-large.aff",
         "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/refs/heads/main/dictionaries/en_US/src/hunspell/en_US-large.dic",
-    )),
-    DictionaryRepo::Hunspell(
+    ),
     HunspellRepo::new(
         "en",
         "https://raw.githubusercontent.com/blopker/dictionaries/refs/heads/main/dictionaries/en/index.aff",
         "https://raw.githubusercontent.com/blopker/dictionaries/refs/heads/main/dictionaries/en/index.dic",
-    )),
-    DictionaryRepo::Hunspell(
+    ),
     HunspellRepo::new(
         "en_gb",
         "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/refs/heads/main/dictionaries/en_GB/src/hunspell/en_GB-large.aff",
         "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/refs/heads/main/dictionaries/en_GB/src/hunspell/en_GB-large.dic",
-    )),
-    DictionaryRepo::Text(
+    ),]
+});
+
+static TEXT_DICTIONARIES: LazyLock<Vec<TextRepo>> = LazyLock::new(|| {
+    vec![
     TextRepo::new(
         "rust",
         "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/refs/heads/main/dictionaries/rust/dict/rust.txt",
-    )),
-    DictionaryRepo::Text(
+    ),
+    TextRepo::new(
+        "software_terms",
+        "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/refs/heads/main/dictionaries/software-terms/dict/softwareTerms.txt",
+    ),
+    TextRepo::new(
+        "computing_acronyms",
+        "https://raw.githubusercontent.com/streetsidesoftware/cspell-dicts/refs/heads/main/dictionaries/software-terms/dict/computing-acronyms.txt",
+    ),
     TextRepo{
         name: "codebook".to_string(),
         text: Some(CODEBOOK_DICTIONARY),
         url: None
-    }),
-    ]
+    },]
 });
 
 pub fn get_repo(name: &str) -> Option<DictionaryRepo> {
-    let res = DICTIONARIES.iter().find(|d| match d {
-        DictionaryRepo::Hunspell(h) => h.name == name,
-        DictionaryRepo::Text(t) => t.name == name,
-    });
-
-    match res {
-        Some(d) => Some(d.clone()),
-        None => None,
+    let res = HUNSPELL_DICTIONARIES.iter().find(|d| d.name == name);
+    if res.is_some() {
+        return Some(DictionaryRepo::Hunspell(res.unwrap().clone()));
     }
+    let res = TEXT_DICTIONARIES.iter().find(|d| d.name == name);
+    if res.is_some() {
+        return Some(DictionaryRepo::Text(res.unwrap().clone()));
+    }
+    None
 }

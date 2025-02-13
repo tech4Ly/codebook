@@ -16,6 +16,9 @@ pub struct Codebook {
     manager: DictionaryManager,
 }
 
+// Custom 'codebook' dictionary could be removed later for a more general solution.
+static DEFAULT_DICTIONARIES: &[&str; 3] = &["codebook", "software_terms", "computing_acronyms"];
+
 impl Codebook {
     pub fn new(config: Arc<CodebookConfig>) -> Result<Self, Box<dyn std::error::Error>> {
         crate::log::init_logging();
@@ -76,8 +79,7 @@ impl Codebook {
             }
             None => {}
         };
-        // Push custom codebook dictionary. Could be removed later for a more general solution.
-        dictionary_ids.push("codebook".to_string());
+        dictionary_ids.extend(DEFAULT_DICTIONARIES.iter().map(|f| f.to_string()));
         let mut dictionaries = Vec::with_capacity(dictionary_ids.len());
         for dictionary_id in dictionary_ids {
             let dictionary = self.manager.get_dictionary(&dictionary_id);

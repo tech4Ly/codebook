@@ -3,6 +3,7 @@ use lru::LruCache;
 
 use std::{
     num::NonZeroUsize,
+    path::PathBuf,
     sync::{Arc, RwLock},
 };
 
@@ -122,7 +123,7 @@ pub struct TextDictionary {
 
 impl Dictionary for TextDictionary {
     fn check(&self, word: &str) -> bool {
-        let lower = word.to_lowercase();
+        let lower = word.to_ascii_lowercase();
         let words = self
             .word_list
             .lines()
@@ -142,8 +143,12 @@ impl Dictionary for TextDictionary {
 impl TextDictionary {
     pub fn new(word_list: &str) -> Self {
         Self {
-            word_list: word_list.to_owned(),
+            word_list: word_list.to_ascii_lowercase(),
         }
+    }
+    pub fn new_from_path(path: &PathBuf) -> Self {
+        let word_list = std::fs::read_to_string(path).unwrap().to_ascii_lowercase();
+        Self { word_list }
     }
 }
 

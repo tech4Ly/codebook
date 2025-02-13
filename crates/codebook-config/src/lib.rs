@@ -46,7 +46,7 @@ impl<'de> Deserialize<'de> for ConfigSettings {
         D: serde::Deserializer<'de>,
     {
         fn to_lowercase_vec(v: Vec<String>) -> Vec<String> {
-            v.into_iter().map(|s| s.to_lowercase()).collect()
+            v.into_iter().map(|s| s.to_ascii_lowercase()).collect()
         }
         #[derive(Deserialize)]
         struct Helper {
@@ -163,7 +163,7 @@ impl CodebookConfig {
     /// Add a word to the allowlist and save the configuration
     pub fn add_word(&self, word: &str) -> Result<bool> {
         {
-            let word = word.to_lowercase();
+            let word = word.to_ascii_lowercase();
             let settings = &mut self.settings.write().unwrap();
             // Check if word already exists
             if settings.words.contains(&word.to_string()) {
@@ -289,7 +289,7 @@ impl CodebookConfig {
 
     /// Check if a word is in the custom allowlist
     pub fn is_allowed_word(&self, word: &str) -> bool {
-        let word = word.to_lowercase();
+        let word = word.to_ascii_lowercase();
         self.settings
             .read()
             .unwrap()
@@ -300,7 +300,7 @@ impl CodebookConfig {
 
     /// Check if a word should be flagged
     pub fn should_flag_word(&self, word: &str) -> bool {
-        let word = word.to_lowercase();
+        let word = word.to_ascii_lowercase();
         self.settings
             .read()
             .unwrap()
