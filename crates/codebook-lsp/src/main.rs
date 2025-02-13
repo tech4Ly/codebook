@@ -56,10 +56,10 @@ async fn serve_lsp(root: &PathBuf) {
     info!("Starting Codebook Language Server...");
     let (stdin, stdout) = (tokio::io::stdin(), tokio::io::stdout());
     let inner_root = root.clone();
+    // Some blocking setup is done, so spawn_block!
     let (service, socket) =
         task::spawn_blocking(move || LspService::new(|client| Backend::new(client, &inner_root)))
             .await
             .unwrap();
-    // let (service, socket) = LspService::new(|client| Backend::new(client, root));
     Server::new(stdin, stdout, socket).serve(service).await;
 }
