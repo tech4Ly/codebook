@@ -49,8 +49,8 @@ Codebook has an optional configuration file you can put in the root of your proj
 Here are the options:
 
 ```toml
-# Currently unused. Will add more dictionaries soon.
 # Default: ["en_us"]
+# "en_gb" also works.
 dictionaries = ["en_us"]
 # List of words to ignore. Case-insensitive. Codebook will add words here when you select "Add to dictionary".
 # Default: []
@@ -61,6 +61,12 @@ flag_words = ["todo", "fixme"]
 # List of path globs to ignore when spell checking.
 # Default: []
 ignore_paths = ["target/**/*", "**/*.json", ".git/**/*"]
+# List of regex patterns to ignore when spell checking. Useful for domain-specific strings like DNA sequences.
+# Default: []
+ignore_patterns = [
+    "^[ATCG]+$",  # DNA sequences
+    "\\d{3}-\\d{2}-\\d{4}"  # Social Security Number format
+]
 ```
 
 ## Goals
