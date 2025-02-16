@@ -1,3 +1,7 @@
+[0.1.18]
+
+- Add `ignore_patterns` for a list of regex expressions to use when checking words. Any matches will ignore the word being checked.
+
 [0.1.17]
 
 - Added a download manager for adding many different dictionaries later
