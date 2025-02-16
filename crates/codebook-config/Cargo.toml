@@ -9,6 +9,7 @@ toml = "0.8"
 anyhow = "1.0"
 glob = "0.3"
 log = "0.4.25"
+regex = "1.11.1"
 
 
 [dev-dependencies]

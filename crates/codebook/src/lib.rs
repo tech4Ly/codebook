@@ -7,7 +7,7 @@ mod splitter;
 use std::sync::Arc;
 
 use codebook_config::CodebookConfig;
-use dictionaries::{dictionary, manager::DictionaryManager, special::check_special};
+use dictionaries::{dictionary, manager::DictionaryManager};
 use dictionary::Dictionary;
 use parser::WordLocation;
 
@@ -41,9 +41,6 @@ impl Codebook {
         let dictionaries = self.get_dictionaries(Some(language));
         parser::find_locations(text, language, |word| {
             if self.config.is_allowed_word(word) {
-                return true;
-            }
-            if check_special(word) {
                 return true;
             }
             for dictionary in &dictionaries {

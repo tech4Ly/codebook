@@ -2,6 +2,7 @@ use anyhow::{Context, Result};
 use glob::Pattern;
 use log::debug;
 use log::info;
+use regex::RegexSet;
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::fs;
@@ -27,6 +28,10 @@ pub struct ConfigSettings {
     /// Glob patterns for paths to ignore
     #[serde(default)]
     pub ignore_paths: Vec<String>,
+
+    /// Regex patterns for text to ignore
+    #[serde(default)]
+    pub ignore_patterns: Vec<String>,
 }
 
 impl Default for ConfigSettings {
@@ -36,6 +41,7 @@ impl Default for ConfigSettings {
             words: Vec::new(),
             flag_words: Vec::new(),
             ignore_paths: Vec::new(),
+            ignore_patterns: Vec::new(),
         }
     }
 }
@@ -58,6 +64,8 @@ impl<'de> Deserialize<'de> for ConfigSettings {
             flag_words: Vec<String>,
             #[serde(default)]
             ignore_paths: Vec<String>,
+            #[serde(default)]
+            ignore_patterns: Vec<String>,
         }
 
         let helper = Helper::deserialize(deserializer)?;
@@ -65,7 +73,8 @@ impl<'de> Deserialize<'de> for ConfigSettings {
             dictionaries: to_lowercase_vec(helper.dictionaries),
             words: to_lowercase_vec(helper.words),
             flag_words: to_lowercase_vec(helper.flag_words),
-            ignore_paths: helper.ignore_paths, // Keep paths as-is
+            ignore_paths: helper.ignore_paths,
+            ignore_patterns: helper.ignore_patterns,
         })
     }
 }
@@ -73,6 +82,7 @@ impl<'de> Deserialize<'de> for ConfigSettings {
 #[derive(Debug)]
 pub struct CodebookConfig {
     settings: RwLock<ConfigSettings>,
+    regex_set: RwLock<Option<RegexSet>>,
     pub config_path: Option<PathBuf>,
     pub cache_dir: PathBuf,
 }
@@ -81,6 +91,7 @@ impl Default for CodebookConfig {
     fn default() -> Self {
         Self {
             settings: RwLock::new(ConfigSettings::default()),
+            regex_set: RwLock::new(None),
             config_path: None,
             cache_dir: env::temp_dir().join(CACHE_DIR),
         }
@@ -150,6 +161,7 @@ impl CodebookConfig {
         if new_settings != *settings {
             info!("Reloading config from file: {}", config_path.display());
             *settings = new_settings;
+            *self.regex_set.write().unwrap() = None;
             return Ok(true);
         }
         Ok(false)
@@ -289,6 +301,9 @@ impl CodebookConfig {
 
     /// Check if a word is in the custom allowlist
     pub fn is_allowed_word(&self, word: &str) -> bool {
+        if self.matches_ignore_pattern(word) {
+            return true;
+        }
         let word = word.to_ascii_lowercase();
         self.settings
             .read()
@@ -296,6 +311,26 @@ impl CodebookConfig {
             .words
             .iter()
             .any(|w| w == &word)
+    }
+
+    /// Check if text matches any of the ignore patterns
+    fn matches_ignore_pattern(&self, word: &str) -> bool {
+        let patterns = &self.settings.read().unwrap().ignore_patterns;
+        if patterns.is_empty() {
+            return false;
+        }
+
+        // Lazily initialize the RegexSet
+        let mut regex_set = self.regex_set.write().unwrap();
+        if regex_set.is_none() {
+            *regex_set = Some(RegexSet::new(patterns).unwrap());
+        }
+
+        // Check if text matches any pattern
+        if let Some(set) = &*regex_set {
+            return set.is_match(word);
+        }
+        false
     }
 
     /// Check if a word should be flagged
@@ -338,6 +373,79 @@ mod tests {
         Ok(())
     }
 
+    #[test]
+    fn test_ignore_patterns() -> Result<()> {
+        let temp_dir = TempDir::new()?;
+        let config_path = temp_dir.path().join("codebook.toml");
+        let mut file = File::create(&config_path)?;
+        let a = r#"
+        ignore_patterns = [
+            "^[ATCG]+$",
+            "\\d{3}-\\d{2}-\\d{4}"  # Social Security Number format
+        ]
+        "#;
+        file.write_all(a.as_bytes())?;
+
+        let config = CodebookConfig::load_from_file(&config_path)?;
+        assert!(config.matches_ignore_pattern("GTAC"));
+        assert!(config.matches_ignore_pattern("AATTCCGG"));
+        assert!(config.matches_ignore_pattern("123-45-6789"));
+        assert!(!config.matches_ignore_pattern("Hello"));
+        assert!(!config.matches_ignore_pattern("GTACZ")); // Invalid DNA sequence
+
+        Ok(())
+    }
+    #[test]
+    fn test_reload_ignore_patterns() -> Result<()> {
+        let temp_dir = TempDir::new()?;
+        let config_path = temp_dir.path().join("codebook.toml");
+
+        // Create initial config with DNA pattern
+        let mut file = File::create(&config_path)?;
+        write!(
+            file,
+            r#"
+            ignore_patterns = [
+                "^[ATCG]+$"
+            ]
+            "#
+        )?;
+
+        let config = CodebookConfig::load_from_file(&config_path)?;
+        assert!(config.matches_ignore_pattern("GTAC"));
+        assert!(!config.matches_ignore_pattern("123-45-6789"));
+
+        // Update config with new pattern
+        let mut file = File::create(&config_path)?;
+        let a = r#"
+        ignore_patterns = [
+            "^[ATCG]+$",
+            "\\d{3}-\\d{2}-\\d{4}"
+        ]
+        "#;
+        file.write_all(a.as_bytes())?;
+
+        // Reload and verify both patterns work
+        config.reload()?;
+        assert!(config.matches_ignore_pattern("GTAC"));
+        assert!(config.matches_ignore_pattern("123-45-6789"));
+
+        // Update config to remove all patterns
+        let mut file = File::create(&config_path)?;
+        write!(
+            file,
+            r#"
+            ignore_patterns = []
+            "#
+        )?;
+
+        // Reload and verify no patterns match
+        config.reload()?;
+        assert!(!config.matches_ignore_pattern("GTAC"));
+        assert!(!config.matches_ignore_pattern("123-45-6789"));
+
+        Ok(())
+    }
     #[test]
     fn test_config_recursive_search() -> Result<()> {
         let temp_dir = TempDir::new()?;
