@@ -4,11 +4,6 @@ import path from "node:path";
 import { LSPTestClient } from "./client";
 import { getLanguageFromFileName } from "./utils";
 
-// async function makeClient() {
-//   const client = new LSPTestClient("../target/debug/codebook-lsp");
-//   await client.start();
-//   return client;
-// }
 let languageClient: LSPTestClient;
 
 beforeAll(async () => {
