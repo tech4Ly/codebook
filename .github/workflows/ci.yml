@@ -23,6 +23,19 @@ jobs:
         run: cargo build
       - name: Run tests
         run: cargo test
+
+  integration_test:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+      - name: Run integration tests
+        run: make integration_test
+
   build:
     name: Build ${{ matrix.platform.project }} - ${{ matrix.platform.release_for }}
     if: github.event.pull_request.draft == false
