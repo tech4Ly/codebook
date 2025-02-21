@@ -64,7 +64,6 @@ ignore_paths = ["target/**/*", "**/*.json", ".git/**/*"]
 # Default: []
 ignore_patterns = [
     "^[ATCG]+$",  # DNA sequences
-    "\\d{3}-\\d{2}-\\d{4}"  # Social Security Number format
 ]
 ```
 
