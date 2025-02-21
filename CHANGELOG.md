@@ -1,3 +1,7 @@
+[0.1.21]
+
+- Better Python support
+
 [0.1.20]
 
 - Fix CI
