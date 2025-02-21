@@ -113,6 +113,8 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
                 parameters: (parameters) @identifier)
             (class_definition
                 name: (identifier) @identifier)
+            (assignment
+                (identifier) @identifier)
                 "#,
         extensions: &["py"],
     },

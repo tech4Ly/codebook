@@ -36,7 +36,7 @@ Codebook is being developed, but the Zed extension is now live! Currently only U
 | Go | ⚠️ |
 | JavaScript | ✅ |
 | TypeScript | ⚠️ |
-| Python | ⚠️ |
+| Python | ✅ |
 | Rust | ✅ |
 | TOML | ✅ |
 

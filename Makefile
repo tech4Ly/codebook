@@ -1,6 +1,6 @@
 MAKEFLAGS += -j4
 .PHONY: *
-export RUST_LOG=info
+export RUST_LOG=debug
 
 test:
 	cargo test --lib --bins --tests -- --test-threads=20

@@ -132,3 +132,70 @@ def constructor():
         assert!(misspelled.iter().find(|r| r.word == word).is_none());
     }
 }
+
+#[test]
+fn test_python_global_variables() {
+    utils::init_logging();
+    let processor = utils::get_processor();
+    let sample_text = r#"
+# Globul variables
+globalCountr = 0
+mesage = "Helllo Wolrd!"
+    "#;
+    let expected = vec![
+        WordLocation::new(
+            "Globul".to_string(),
+            vec![TextRange {
+                start_char: 2,
+                end_char: 8,
+                line: 1,
+            }],
+        ),
+        WordLocation::new(
+            "Countr".to_string(),
+            vec![TextRange {
+                start_char: 6,
+                end_char: 12,
+                line: 2,
+            }],
+        ),
+        WordLocation::new(
+            "mesage".to_string(),
+            vec![TextRange {
+                start_char: 0,
+                end_char: 6,
+                line: 3,
+            }],
+        ),
+        WordLocation::new(
+            "Helllo".to_string(),
+            vec![TextRange {
+                start_char: 10,
+                end_char: 16,
+                line: 3,
+            }],
+        ),
+        WordLocation::new(
+            "Wolrd".to_string(),
+            vec![TextRange {
+                start_char: 17,
+                end_char: 22,
+                line: 3,
+            }],
+        ),
+    ];
+
+    let misspelled = processor
+        .spell_check(sample_text, Some(LanguageType::Python), None)
+        .to_vec();
+    println!("Misspelled words: {misspelled:?}");
+
+    for e in &expected {
+        let miss = misspelled
+            .iter()
+            .find(|r| r.word == e.word)
+            .expect(format!("Word '{}' not found in misspelled list", e.word).as_str());
+        println!("Expecting: {e:?}");
+        assert_eq!(miss.locations, e.locations);
+    }
+}
