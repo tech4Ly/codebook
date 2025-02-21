@@ -1,3 +1,7 @@
+[0.1.20]
+
+- Fix CI
+
 [0.1.19]
 
 - Add support for C
