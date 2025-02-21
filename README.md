@@ -135,4 +135,5 @@ To update the Zed Extension:
 
 1. Go to blopker/codebook-zed
 1. Update the version in extension.toml
+1. Run `git submodule update --remote --merge extensions/codebook` in zed/extensions
 1. Make a PR to zed/extensions with the updated submodule
