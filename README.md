@@ -81,7 +81,7 @@ Codebook should have high signal and low noise. It should only highlight words t
 
 ### Efficient
 
-All features will be weighed against their impact on CPU and memory impact. Codebook should be fast enough to spellcheck on every keystroke on even low-end hardware.
+All features will be weighed against their impact on CPU and memory. Codebook should be fast enough to spellcheck on every keystroke on even low-end hardware.
 
 ## Features
 
