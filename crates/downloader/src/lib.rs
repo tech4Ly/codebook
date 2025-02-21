@@ -44,16 +44,16 @@ impl Downloader {
         let metadata_path = cache_dir.join(METADATA_FILE);
         let metadata = if metadata_path.exists() {
             let file = File::open(&metadata_path)?;
-            RwLock::new(serde_json::from_reader(file)?)
+            serde_json::from_reader(file)?
         } else {
-            RwLock::new(Metadata {
+            Metadata {
                 files: HashMap::new(),
-            })
+            }
         };
 
         Ok(Self {
             cache_dir,
-            metadata,
+            metadata: RwLock::new(metadata),
             client: Client::new(),
         })
     }
