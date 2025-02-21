@@ -30,6 +30,7 @@ Codebook is being developed, but the Zed extension is now live! Currently only U
 | --- | --- |
 | Markdown | ✅ |
 | Plain Text | ✅ |
+| C | ✅ |
 | HTML | ⚠️ |
 | CSS | ⚠️ |
 | Go | ⚠️ |
