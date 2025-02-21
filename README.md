@@ -14,8 +14,6 @@
 
 Codebook is currently only available for the Zed editor. To install, go to the Extension tab in Zed and look for "Codebook".
 
-To keep visual noise low, Codebook only checks for spelling on save.
-
 ## About
 
 Codebook is a spellchecker for code. It binds together the venerable Tree Sitter and the fast spell checker [Spellbook](https://github.com/helix-editor/spellbook). Included is a Language Server for use in any editor. Everything is done in Rust to keep response times snappy and memory usage _low_.
