@@ -3,6 +3,7 @@ use tree_sitter::Language;
 #[derive(Debug, Clone, PartialEq, Copy)]
 pub enum LanguageType {
     Css,
+    C,
     Go,
     Html,
     Javascript,
@@ -60,6 +61,44 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
                 (char_literal) @string
                 "#,
         extensions: &["rs"],
+    },
+    LanguageSetting {
+        type_: LanguageType::C,
+        ids: &["c"],
+        dictionary_ids: &["c"],
+        query: r#"
+                (comment) @comment
+                (preproc_def
+                name: (identifier) @identifier)
+                (type_definition
+                declarator: (type_identifier) @identifier)
+                (struct_specifier
+                name: (type_identifier) @identifier)
+                (field_declaration
+                    declarator: (field_identifier) @identifier)
+                (pointer_declarator
+                    declarator: (field_identifier) @identifier)
+                (enum_specifier
+                name: (type_identifier) @identifier)
+                (enumerator
+                    name: (identifier) @identifier)
+                (init_declarator
+                    declarator: (identifier) @identifier)
+                (pointer_declarator
+                    declarator: (identifier) @identifier)
+                (init_declarator
+                    (string_literal
+                    (string_content) @string_content))
+                (function_declarator
+                    declarator: (identifier) @identifier)
+                (parameter_declaration
+                    declarator: (identifier) @identifier)
+                    (call_expression
+                (argument_list
+                    (string_literal
+                        [(string_content) (escape_sequence)] @string)))
+                "#,
+        extensions: &["c", "h"],
     },
     LanguageSetting {
         type_: LanguageType::Python,
@@ -182,6 +221,7 @@ impl LanguageSetting {
     pub fn language(&self) -> Option<Language> {
         match self.type_ {
             LanguageType::Rust => Some(tree_sitter_rust::LANGUAGE.into()),
+            LanguageType::C => Some(tree_sitter_c::LANGUAGE.into()),
             LanguageType::Python => Some(tree_sitter_python::LANGUAGE.into()),
             LanguageType::Javascript => Some(tree_sitter_javascript::LANGUAGE.into()),
             LanguageType::Typescript => Some(tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into()),
