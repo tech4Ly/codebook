@@ -139,3 +139,46 @@ test("should only highlight word in code", async () => {
     }
   });
 });
+
+test("should provide diagnostics for all example files", async () => {
+  const exampleDir = path.join(__dirname, "../examples");
+  const files = fs.readdirSync(exampleDir);
+
+  for (const file of files) {
+    const filePath = path.join(exampleDir, file);
+    const content = fs.readFileSync(filePath, "utf8");
+
+    await new Promise<void>((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        reject(new Error(`Timeout waiting for diagnostics for ${file}`));
+      }, 5000);
+
+      try {
+        languageClient.once("textDocument/publishDiagnostics", (params) => {
+          try {
+            console.log(`Received diagnostics for ${file}:`, params);
+            expect(params).toBeDefined();
+            expect(params.diagnostics.length).toBeGreaterThan(0);
+            clearTimeout(timeoutId);
+            resolve();
+          } catch (error) {
+            clearTimeout(timeoutId);
+            reject(error);
+          }
+        });
+
+        languageClient.sendNotification("textDocument/didOpen", {
+          textDocument: {
+            uri: `file:///${file}`,
+            languageId: getLanguageFromFileName(file),
+            version: 1,
+            text: content,
+          },
+        });
+      } catch (error) {
+        clearTimeout(timeoutId);
+        reject(error);
+      }
+    });
+  }
+});
