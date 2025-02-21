@@ -22,7 +22,7 @@ Codebook is a spellchecker for code. It binds together the venerable Tree Sitter
 
 ## Status
 
-Codebook is being developed, but the Zed extension is now live! Currently only US English is supported.
+Codebook is being developed, but the Zed extension is now live!
 
 ### Supported Languages
 
@@ -102,10 +102,9 @@ Codebook comes with a dictionary manager, which will automatically download and 
 
 ## Roadmap
 
-- [ ] Support more languages than US English
+- [X] Support more languages than US English
 - [X] Support custom project dictionaries
-- [ ] Support custom global dictionaries
-- [ ] Support per file extension dictionaries
+- [X] Support per file extension dictionaries
 - [X] Add code actions to correct spelling
 
 ## Running Tests
