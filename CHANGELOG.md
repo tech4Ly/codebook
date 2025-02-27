@@ -1,3 +1,7 @@
+[0.1.22]
+
+- Better support for TypeScript classes and fields
+
 [0.1.21]
 
 - Better Python support
