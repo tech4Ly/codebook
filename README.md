@@ -12,6 +12,13 @@
 
 ## Usage
 
+<img
+  src="assets/example.png" alt="Logo" width="400" >
+
+No setup needed. Code book will automatically detect the language you are editing and mark issues for you. Note, Codebook will only mark issues that you control, where they are initially defined.
+
+## Install
+
 Codebook is currently only available for the Zed editor. To install, go to the Extension tab in Zed and look for "Codebook".
 
 ## About
