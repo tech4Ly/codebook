@@ -131,6 +131,9 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
             (shorthand_property_identifier) @identifier
             (function_declaration
                 name: (identifier) @identifier)
+            (function_declaration
+                parameters: (formal_parameters
+                (identifier) @identifier))
             (method_definition
                 name: (property_identifier) @identifier)
             (class_declaration
@@ -151,7 +154,17 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
             (shorthand_property_identifier) @identifier
             (function_declaration
                 name: (identifier) @identifier)
+            (formal_parameters
+                (required_parameter
+                pattern: (identifier) @identifier))
+            (formal_parameters
+                (optional_parameter
+                pattern: (identifier) @identifier))
             (method_definition
+                name: (property_identifier) @identifier)
+            (class_declaration
+                name: (type_identifier) @identifier)
+            (public_field_definition
                 name: (property_identifier) @identifier)
                 "#,
         extensions: &["ts", "tsx"],

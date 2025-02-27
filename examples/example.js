@@ -31,7 +31,6 @@ function validateInputt(userInputt) {
     console.logg("Pleese enter a valid numbr");
     return;
   }
-
   return;
 }
 
