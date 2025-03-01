@@ -1,83 +1,16 @@
+mod settings;
+use crate::settings::ConfigSettings;
 use anyhow::{Context, Result};
 use glob::Pattern;
 use log::debug;
 use log::info;
 use regex::RegexSet;
-use serde::{Deserialize, Serialize};
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::RwLock;
 
 static CACHE_DIR: &str = "codebook";
-
-#[derive(Debug, Serialize, Clone, PartialEq)]
-pub struct ConfigSettings {
-    /// List of dictionaries to use for spell checking
-    #[serde(default)]
-    pub dictionaries: Vec<String>,
-
-    /// Custom allowlist of words
-    #[serde(default)]
-    pub words: Vec<String>,
-
-    /// Words that should always be flagged
-    #[serde(default)]
-    pub flag_words: Vec<String>,
-
-    /// Glob patterns for paths to ignore
-    #[serde(default)]
-    pub ignore_paths: Vec<String>,
-
-    /// Regex patterns for text to ignore
-    #[serde(default)]
-    pub ignore_patterns: Vec<String>,
-}
-
-impl Default for ConfigSettings {
-    fn default() -> Self {
-        Self {
-            dictionaries: vec![],
-            words: Vec::new(),
-            flag_words: Vec::new(),
-            ignore_paths: Vec::new(),
-            ignore_patterns: Vec::new(),
-        }
-    }
-}
-
-impl<'de> Deserialize<'de> for ConfigSettings {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        fn to_lowercase_vec(v: Vec<String>) -> Vec<String> {
-            v.into_iter().map(|s| s.to_ascii_lowercase()).collect()
-        }
-        #[derive(Deserialize)]
-        struct Helper {
-            #[serde(default)]
-            dictionaries: Vec<String>,
-            #[serde(default)]
-            words: Vec<String>,
-            #[serde(default)]
-            flag_words: Vec<String>,
-            #[serde(default)]
-            ignore_paths: Vec<String>,
-            #[serde(default)]
-            ignore_patterns: Vec<String>,
-        }
-
-        let helper = Helper::deserialize(deserializer)?;
-        Ok(ConfigSettings {
-            dictionaries: to_lowercase_vec(helper.dictionaries),
-            words: to_lowercase_vec(helper.words),
-            flag_words: to_lowercase_vec(helper.flag_words),
-            ignore_paths: helper.ignore_paths,
-            ignore_patterns: helper.ignore_patterns,
-        })
-    }
-}
 
 #[derive(Debug)]
 pub struct CodebookConfig {
@@ -466,12 +399,14 @@ mod tests {
         )?;
 
         let config = CodebookConfig::load_from_dir(&sub_sub_dir)?;
-        assert!(config
-            .settings
-            .read()
-            .unwrap()
-            .words
-            .contains(&"testword".to_string()));
+        assert!(
+            config
+                .settings
+                .read()
+                .unwrap()
+                .words
+                .contains(&"testword".to_string())
+        );
         // Check that the config file path is stored
         assert_eq!(config.config_path, Some(config_path));
         Ok(())
