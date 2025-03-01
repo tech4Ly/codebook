@@ -191,7 +191,7 @@ impl LanguageServer for Backend {
 
 impl Backend {
     pub fn new(client: Client, workspace_dir: &PathBuf) -> Self {
-        let config = CodebookConfig::load_from_dir(workspace_dir).expect("Unable to make config.");
+        let config = CodebookConfig::load(Some(workspace_dir)).expect("Unable to make config.");
         let config_arc = Arc::new(config);
         let cb_config = Arc::clone(&config_arc);
         let codebook = Arc::new(Codebook::new(cb_config).expect("Unable to make codebook"));
@@ -289,18 +289,7 @@ impl Backend {
             }
         };
 
-        let did_config_change = uri
-            .to_file_path()
-            .map(|path| {
-                self.config
-                    .config_path
-                    .as_ref()
-                    .map(|config_path| path == *config_path)
-                    .unwrap_or(false)
-            })
-            .unwrap_or(false);
-
-        if did_reload || did_config_change {
+        if did_reload {
             self.recheck_all().await;
         } else {
             self.publish_spellcheck_diagnostics(uri).await;

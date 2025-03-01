@@ -3,7 +3,7 @@ use std::sync::Arc;
 use codebook::Codebook;
 
 pub fn get_processor() -> Codebook {
-    let config = Arc::new(codebook_config::CodebookConfig::new_no_file());
+    let config = Arc::new(codebook_config::CodebookConfig::default());
     let dict = Codebook::new(config).unwrap();
     dict
 }

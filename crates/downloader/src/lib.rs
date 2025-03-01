@@ -43,8 +43,17 @@ impl Downloader {
 
         let metadata_path = cache_dir.join(METADATA_FILE);
         let metadata = if metadata_path.exists() {
-            let file = File::open(&metadata_path)?;
-            serde_json::from_reader(file)?
+            // Try to parse the existing metadata file
+            match File::open(&metadata_path).and_then(|file| Ok(serde_json::from_reader(file)?)) {
+                Ok(metadata) => metadata,
+                Err(e) => {
+                    // Log the error but continue with a fresh metadata file
+                    log::warn!("Failed to load metadata file: {}, creating a new one", e);
+                    Metadata {
+                        files: HashMap::new(),
+                    }
+                }
+            }
         } else {
             Metadata {
                 files: HashMap::new(),
@@ -60,14 +69,26 @@ impl Downloader {
 
     pub fn get(&self, url: &str) -> Result<PathBuf> {
         // First check with read lock
-        let needs_update = {
+        let (needs_update, file_exists) = {
             let metadata = self.metadata.read().unwrap();
-            metadata
-                .files
-                .get(url)
-                .map(|e| e.last_checked.timestamp() + TWO_WEEKS as i64 <= Utc::now().timestamp())
+            let entry = metadata.files.get(url);
+
+            match entry {
+                Some(e) => {
+                    let needs_update =
+                        e.last_checked.timestamp() + TWO_WEEKS as i64 <= Utc::now().timestamp();
+                    let file_exists = e.path.exists();
+                    (Some(needs_update), file_exists)
+                }
+                None => (None, false),
+            }
         };
-        // println!("Needs update {:?}", needs_update);
+
+        // If the file doesn't exist but we have metadata, treat it as a new download
+        if !file_exists && needs_update.is_some() {
+            return self.download_new(url);
+        }
+
         match needs_update {
             Some(true) => self.try_update(url),
             Some(false) => Ok(self.metadata.read().unwrap().files[url].path.clone()),
@@ -75,7 +96,13 @@ impl Downloader {
         }
         .or_else(|e| {
             eprintln!("Failed to update, using cached version: {}", e);
-            Ok(self.metadata.read().unwrap().files[url].path.clone())
+            let path = self.metadata.read().unwrap().files[url].path.clone();
+            if path.exists() {
+                Ok(path)
+            } else {
+                // If fallback path doesn't exist, try to download anyway
+                self.download_new(url)
+            }
         })
     }
 
@@ -466,5 +493,41 @@ mod tests {
 
         let same_url = "https://example.com/same";
         assert_eq!(hash_url(same_url), hash_url(same_url));
+    }
+
+    #[test]
+    fn test_redownloads_when_file_missing() {
+        let server = MockServer::start();
+        let temp_dir = tempdir().unwrap();
+
+        // First download
+        let mut mock1 = server.mock(|when, then| {
+            when.method("GET").path("/test.txt");
+            then.status(200).body("content");
+        });
+
+        let downloader = Downloader::new(temp_dir.path()).unwrap();
+        let path = downloader.get(&server.url("/test.txt")).unwrap();
+        mock1.assert();
+        mock1.delete();
+
+        // Simulate file deletion but keep metadata
+        std::fs::remove_file(&path).unwrap();
+        assert!(!path.exists());
+
+        // Second request should redownload
+        let mock2 = server.mock(|when, then| {
+            when.method("GET").path("/test.txt");
+            then.status(200).body("redownloaded content");
+        });
+
+        let new_path = downloader.get(&server.url("/test.txt")).unwrap();
+        mock2.assert();
+
+        assert!(new_path.exists());
+        assert_eq!(
+            std::fs::read_to_string(&new_path).unwrap(),
+            "redownloaded content"
+        );
     }
 }

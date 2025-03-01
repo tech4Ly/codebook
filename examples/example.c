@@ -64,7 +64,7 @@ int mainee(void) {
 
     // Whiel loop with misspellings
     int countr = 0;
-    whiel (countr < 5) {
+    while (countr < 5) {
         printf("Iterashun %d\n", countr++);
     }
 

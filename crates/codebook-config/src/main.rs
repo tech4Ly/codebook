@@ -1,8 +1,8 @@
 use codebook_config::CodebookConfig;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Load configuration
-    let config = CodebookConfig::load()?;
+    let config = CodebookConfig::load(None)?;
 
     // Use the configuration
     println!("Loaded dictionaries: {:?}", config.get_dictionary_ids());

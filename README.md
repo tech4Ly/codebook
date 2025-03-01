@@ -48,31 +48,68 @@ Codebook is being developed, but the Zed extension is now live!
 ✅ = Good to go
 ⚠️ = Supported, but needs more testing
 
-## Configuration File
+## Configuration
 
-Codebook has an optional configuration file you can put in the root of your project. Either `codebook.toml` or `.codebook.toml` will work.
+Codebook supports both global and project-specific configuration. Configuration files use the TOML format, with project settings overriding global ones.
 
-Here are the options:
+### Global Configuration
+
+The global configuration applies to all projects by default. Location depends on your operating system:
+
+- **Linux/macOS**: `$XDG_CONFIG_HOME/codebook/codebook.toml` or `~/.config/codebook/codebook.toml`
+- **Windows**: `%APPDATA%\codebook\codebook.toml`
+
+### Project Configuration
+
+Project-specific configuration is loaded from either `codebook.toml` or `.codebook.toml` in the project root. Codebook searches for this file starting from the current directory and moving up to parent directories.
+
+### Configuration Options
 
 ```toml
+# List of dictionaries to use for spell checking
 # Default: ["en_us"]
-# "en_gb" also works.
-dictionaries = ["en_us"]
-# List of words to ignore. Case-insensitive. Codebook will add words here when you select "Add to dictionary".
+# Other options include "en_gb"
+dictionaries = ["en_us", "en_gb"]
+
+# Custom allowlist of words to ignore (case-insensitive)
+# Codebook will add words here when you select "Add to dictionary"
 # Default: []
-words = ["codebook"]
-# List of words to always flag as incorrect.
+words = ["codebook", "rustc"]
+
+# Words that should always be flagged as incorrect
 # Default: []
 flag_words = ["todo", "fixme"]
-# List of path globs to ignore when spell checking.
+
+# List of glob patterns for paths to ignore when spell checking
 # Default: []
 ignore_paths = ["target/**/*", "**/*.json", ".git/**/*"]
-# List of regex patterns to ignore when spell checking. Useful for domain-specific strings like DNA sequences.
+
+# List of regex patterns to ignore when spell checking
+# Useful for domain-specific strings or patterns
 # Default: []
 ignore_patterns = [
-    "^[ATCG]+$",  # DNA sequences
+    "^[ATCG]+$",             # DNA sequences
+    "\\d{3}-\\d{2}-\\d{4}"   # Social Security Number format
 ]
+
+# Whether to use global configuration (project config only)
+# Set to false to completely ignore global settings
+# Default: true
+use_global = true
 ```
+
+### Configuration Precedence
+
+1. Project configuration overrides global configuration
+2. If `use_global = false` in project config, global settings are ignored entirely
+3. If no project config exists, global config is used
+4. If neither exists, default settings are used
+
+### Working with Configurations
+
+- Words added with "Add to dictionary" are stored in the project configuration
+- Project settings are saved automatically when words are added
+- Configuration files are automatically reloaded when they change
 
 ## Goals
 
@@ -104,12 +141,17 @@ Codebook comes with a language server. Originally developed for the Zed editor, 
 
 Codebook comes with a dictionary manager, which will automatically download and cache dictionaries for a large number of written languages.
 
+### Hierarchical Configuration
+
+Codebook uses a hierarchical configuration system with global (user-level) and project-specific settings, giving you flexibility to set defaults and override them as needed per project.
+
 ## Roadmap
 
 - [X] Support more languages than US English
 - [X] Support custom project dictionaries
 - [X] Support per file extension dictionaries
 - [X] Add code actions to correct spelling
+- [X] Support hierarchical global and project configuration
 
 ## Running Tests
 

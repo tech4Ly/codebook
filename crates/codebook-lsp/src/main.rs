@@ -44,7 +44,7 @@ async fn main() {
             serve_lsp(&root.to_path_buf()).await;
         }
         Some(Commands::Clean {}) => {
-            let config = CodebookConfig::new_no_file();
+            let config = CodebookConfig::default();
             info!("Cleaning: {:?}", config.cache_dir);
             config.clean_cache()
         }

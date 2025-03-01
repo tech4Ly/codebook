@@ -93,22 +93,22 @@ impl ConfigSettings {
         // as this is a per-config setting
 
         // Sort and deduplicate each collection
-        self.sort_and_dedupe();
+        self.sort_and_dedup();
     }
 
     /// Sort and deduplicate all collections in the config
-    pub fn sort_and_dedupe(&mut self) {
+    pub fn sort_and_dedup(&mut self) {
         // Sort and deduplicate each Vec
-        sort_and_dedupe(&mut self.dictionaries);
-        sort_and_dedupe(&mut self.words);
-        sort_and_dedupe(&mut self.flag_words);
-        sort_and_dedupe(&mut self.ignore_paths);
-        sort_and_dedupe(&mut self.ignore_patterns);
+        sort_and_dedup(&mut self.dictionaries);
+        sort_and_dedup(&mut self.words);
+        sort_and_dedup(&mut self.flag_words);
+        sort_and_dedup(&mut self.ignore_paths);
+        sort_and_dedup(&mut self.ignore_patterns);
     }
 }
 
 /// Helper function to sort and deduplicate a Vec of strings
-fn sort_and_dedupe(vec: &mut Vec<String>) {
+fn sort_and_dedup(vec: &mut Vec<String>) {
     vec.sort();
     vec.dedup();
 }
@@ -205,7 +205,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sort_and_dedupe() {
+    fn test_sort_and_dedup() {
         let mut config = ConfigSettings {
             dictionaries: vec![
                 "en_gb".to_string(),
@@ -231,7 +231,7 @@ mod tests {
             use_global: true,
         };
 
-        config.sort_and_dedupe();
+        config.sort_and_dedup();
 
         assert_eq!(config.dictionaries, vec!["en_gb", "en_us"]);
         assert_eq!(config.words, vec!["codebook", "rust"]);

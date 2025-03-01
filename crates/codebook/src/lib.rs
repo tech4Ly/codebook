@@ -40,6 +40,12 @@ impl Codebook {
         let language = self.resolve_language(language, file_path);
         let dictionaries = self.get_dictionaries(Some(language));
         parser::find_locations(text, language, |word| {
+            if self.config.should_flag_word(word) {
+                return false;
+            }
+            if word.len() < 3 {
+                return true;
+            }
             if self.config.is_allowed_word(word) {
                 return true;
             }

@@ -147,7 +147,9 @@ impl TextDictionary {
         }
     }
     pub fn new_from_path(path: &PathBuf) -> Self {
-        let word_list = std::fs::read_to_string(path).unwrap().to_ascii_lowercase();
+        let word_list = std::fs::read_to_string(path)
+            .expect(format!("Failed to read dictionary file: {}", path.display()).as_str())
+            .to_ascii_lowercase();
         Self { word_list }
     }
 }
