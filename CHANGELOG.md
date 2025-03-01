@@ -1,3 +1,10 @@
+[0.2.0]
+
+- Rework config to allow for global config.
+- Ignore words less than 3 chars.
+- Remake metadata file if it is corrupt.
+- Protect against deleted cached files.
+
 [0.1.22]
 
 - Better support for TypeScript classes and fields
