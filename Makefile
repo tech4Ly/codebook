@@ -28,3 +28,6 @@ release-lsp:
 
 clear_cache: build
 	target/debug/codebook-lsp clean
+
+build-dictionaries:
+    cargo run -p dictionary-builder -- build

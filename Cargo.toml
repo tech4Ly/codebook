@@ -1,3 +1,3 @@
 [workspace]
-members = ["crates/codebook", "crates/codebook-config", "crates/codebook-lsp", "crates/downloader"]
+members = ["crates/codebook", "crates/codebook-config", "crates/codebook-lsp", "crates/downloader", "crates/dictionary-builder"]
 resolver = "2"
