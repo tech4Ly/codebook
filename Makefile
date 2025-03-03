@@ -30,4 +30,7 @@ clear_cache: build
 	target/debug/codebook-lsp clean
 
 build-dictionaries:
-    cargo run -p dictionary-builder -- build
+	cargo run -p dictionary-builder -- build
+
+generate-manifest:
+	cargo run -p dictionary-builder -- generate-manifest

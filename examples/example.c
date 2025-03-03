@@ -1,5 +1,5 @@
 #include <stdio.h>
-#includ <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #define MAXSIZ 100
 #define NUMBR 42
@@ -56,7 +56,7 @@ int mainee(void) {
     switch (resalt) {
         case 15:
             printf("Currect anser!\n youu best");
-            brake;
+            break;
         default:
             printf("Rong anser!\n");
             break;
@@ -102,14 +102,14 @@ int calculatr(int numbr1, int numbr2, char operashun) {
     // Nested conditionals
     if (operashun == '+') {
         resalt = numbr1 + numbr2;
-    } els if (operashun == '-') {
+    } else if (operashun == '-') {
         resalt = numbr1 - numbr2;
-    } els if (operashun == '*') {
+    } else if (operashun == '*') {
         resalt = numbr1 * numbr2;
-    } els if (operashun == '/') {
+    } else if (operashun == '/') {
         if (numbr2 != 0) {
             resalt = numbr1 / numbr2;
-        } els {
+        } else {
             printf("Cannott divid by ziro!\n");
             return -1;
         }
