@@ -1,7 +1,7 @@
 use crate::splitter;
 use log::{debug, info};
 
-use crate::queries::{get_language_setting, LanguageType};
+use crate::queries::{LanguageType, get_language_setting};
 use std::collections::HashMap;
 use streaming_iterator::StreamingIterator;
 use tree_sitter::{Parser, Query, QueryCursor};
@@ -156,32 +156,59 @@ fn get_words_from_text(text: &str) -> Vec<(String, (u32, u32))> {
     };
 
     for line in text.lines() {
+        let mut chars = line.char_indices();
         let mut chars_to_skip = 0;
-        for (i, c) in line.chars().enumerate() {
+
+        while let Some((byte_idx, c)) = chars.next() {
             if chars_to_skip > 0 {
                 chars_to_skip -= 1;
                 continue;
             }
+
             if c == ':' {
-                if let Some((url_start, url_end)) = splitter::find_url_end(&line[i..]) {
+                if let Some((url_start, url_end)) = splitter::find_url_end(&line[byte_idx..]) {
                     // Toss the current word and skip the URL
                     current_word.clear();
                     debug!(
                         "Found url: {}, skipping: {}",
-                        &line[url_start + i..url_end + i],
+                        &line[url_start + byte_idx..url_end + byte_idx],
                         url_end
                     );
-                    chars_to_skip = url_end;
-                    current_char += url_end as u32 + 1;
+
+                    // Skip characters by consuming from the iterator
+                    let chars_to_consume = url_end;
+                    for _ in 0..chars_to_consume {
+                        chars.next();
+                    }
+
+                    // Update current_char position
+                    current_char = (byte_idx + url_end) as u32;
                     continue;
                 }
             }
-            let is_contraction = c == '\''
-                && i > 0
-                && i < line.len() - 1
-                && line.chars().nth(i - 1).unwrap().is_alphabetic()
-                && line.chars().nth(i + 1).unwrap().is_alphabetic();
-            if c.is_alphabetic() || is_contraction {
+
+            // Check for contraction - need to use character-based approach
+            let is_contraction = c == '\'' && byte_idx > 0;
+
+            // If it's potentially a contraction, we need to check the surrounding characters
+            let mut is_valid_contraction = false;
+            if is_contraction {
+                // Get previous character
+                let prev_char_is_alpha = line[..byte_idx]
+                    .chars()
+                    .last()
+                    .map_or(false, |ch| ch.is_alphabetic());
+
+                // Get next character
+                let next_char_is_alpha = chars
+                    .clone()
+                    .next()
+                    .map_or(false, |(_, ch)| ch.is_alphabetic());
+
+                is_valid_contraction = prev_char_is_alpha && next_char_is_alpha;
+            }
+
+            if c.is_alphabetic() || is_valid_contraction {
                 if current_word.is_empty() {
                     word_start_char = current_char;
                 }
@@ -189,8 +216,10 @@ fn get_words_from_text(text: &str) -> Vec<(String, (u32, u32))> {
             } else {
                 add_word_fn(&mut current_word, &mut words, word_start_char, current_line);
             }
+
             current_char += 1;
         }
+
         add_word_fn(&mut current_word, &mut words, word_start_char, current_line);
         current_line += 1;
         current_char = 0;
