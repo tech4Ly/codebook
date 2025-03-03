@@ -7,3 +7,6 @@ profile.json
 node_modules
 .aider*
 .env
+scratch/
+manifest.json
+dictionaries/**/source
