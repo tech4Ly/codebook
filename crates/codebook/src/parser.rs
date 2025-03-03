@@ -156,59 +156,45 @@ fn get_words_from_text(text: &str) -> Vec<(String, (u32, u32))> {
     };
 
     for line in text.lines() {
-        let mut chars = line.char_indices();
-        let mut chars_to_skip = 0;
+        let chars: Vec<char> = line.chars().collect();
+        let mut i = 0;
 
-        while let Some((byte_idx, c)) = chars.next() {
-            if chars_to_skip > 0 {
-                chars_to_skip -= 1;
-                continue;
-            }
+        while i < chars.len() {
+            let c = chars[i];
 
-            if c == ':' {
-                if let Some((url_start, url_end)) = splitter::find_url_end(&line[byte_idx..]) {
-                    // Toss the current word and skip the URL
+            if c == ':' && i + 1 < chars.len() {
+                // Create a substring starting at the current position
+                let byte_offset = line.char_indices().nth(i).unwrap().0;
+                let remaining = &line[byte_offset..];
+
+                if let Some((url_start, url_end)) = splitter::find_url_end(remaining) {
+                    // Toss the current word
                     current_word.clear();
                     debug!(
                         "Found url: {}, skipping: {}",
-                        &line[url_start + byte_idx..url_end + byte_idx],
+                        &remaining[url_start..url_end],
                         url_end
                     );
 
-                    // Skip characters by consuming from the iterator
-                    let chars_to_consume = url_end;
-                    for _ in 0..chars_to_consume {
-                        chars.next();
-                    }
+                    // Count characters in the URL
+                    let url_chars_count = remaining[..url_end].chars().count() as u32;
 
-                    // Update current_char position
-                    current_char = (byte_idx + url_end) as u32;
+                    // Skip to after the URL
+                    current_char += url_chars_count;
+
+                    // Move index to after the URL
+                    i += remaining[..url_end].chars().count();
                     continue;
                 }
             }
 
-            // Check for contraction - need to use character-based approach
-            let is_contraction = c == '\'' && byte_idx > 0;
+            let is_contraction = c == '\''
+                && i > 0
+                && i < chars.len() - 1
+                && chars[i - 1].is_alphabetic()
+                && chars[i + 1].is_alphabetic();
 
-            // If it's potentially a contraction, we need to check the surrounding characters
-            let mut is_valid_contraction = false;
-            if is_contraction {
-                // Get previous character
-                let prev_char_is_alpha = line[..byte_idx]
-                    .chars()
-                    .last()
-                    .map_or(false, |ch| ch.is_alphabetic());
-
-                // Get next character
-                let next_char_is_alpha = chars
-                    .clone()
-                    .next()
-                    .map_or(false, |(_, ch)| ch.is_alphabetic());
-
-                is_valid_contraction = prev_char_is_alpha && next_char_is_alpha;
-            }
-
-            if c.is_alphabetic() || is_valid_contraction {
+            if c.is_alphabetic() || is_contraction {
                 if current_word.is_empty() {
                     word_start_char = current_char;
                 }
@@ -218,12 +204,14 @@ fn get_words_from_text(text: &str) -> Vec<(String, (u32, u32))> {
             }
 
             current_char += 1;
+            i += 1;
         }
 
         add_word_fn(&mut current_word, &mut words, word_start_char, current_line);
         current_line += 1;
         current_char = 0;
     }
+
     words
 }
 
