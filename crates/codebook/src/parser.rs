@@ -1,7 +1,7 @@
 use crate::splitter;
 use log::{debug, info};
 
-use crate::queries::{get_language_setting, LanguageType};
+use crate::queries::{LanguageType, get_language_setting};
 use std::collections::HashMap;
 use streaming_iterator::StreamingIterator;
 use tree_sitter::{Parser, Query, QueryCursor};
@@ -156,31 +156,44 @@ fn get_words_from_text(text: &str) -> Vec<(String, (u32, u32))> {
     };
 
     for line in text.lines() {
-        let mut chars_to_skip = 0;
-        for (i, c) in line.chars().enumerate() {
-            if chars_to_skip > 0 {
-                chars_to_skip -= 1;
-                continue;
-            }
-            if c == ':' {
-                if let Some((url_start, url_end)) = splitter::find_url_end(&line[i..]) {
-                    // Toss the current word and skip the URL
+        let chars: Vec<char> = line.chars().collect();
+        let mut i = 0;
+
+        while i < chars.len() {
+            let c = chars[i];
+
+            if c == ':' && i + 1 < chars.len() {
+                // Create a substring starting at the current position
+                let byte_offset = line.char_indices().nth(i).unwrap().0;
+                let remaining = &line[byte_offset..];
+
+                if let Some((url_start, url_end)) = splitter::find_url_end(remaining) {
+                    // Toss the current word
                     current_word.clear();
                     debug!(
                         "Found url: {}, skipping: {}",
-                        &line[url_start + i..url_end + i],
+                        &remaining[url_start..url_end],
                         url_end
                     );
-                    chars_to_skip = url_end;
-                    current_char += url_end as u32 + 1;
+
+                    // Count characters in the URL
+                    let url_chars_count = remaining[..url_end].chars().count() as u32;
+
+                    // Skip to after the URL
+                    current_char += url_chars_count;
+
+                    // Move index to after the URL
+                    i += remaining[..url_end].chars().count();
                     continue;
                 }
             }
+
             let is_contraction = c == '\''
                 && i > 0
-                && i < line.len() - 1
-                && line.chars().nth(i - 1).unwrap().is_alphabetic()
-                && line.chars().nth(i + 1).unwrap().is_alphabetic();
+                && i < chars.len() - 1
+                && chars[i - 1].is_alphabetic()
+                && chars[i + 1].is_alphabetic();
+
             if c.is_alphabetic() || is_contraction {
                 if current_word.is_empty() {
                     word_start_char = current_char;
@@ -189,12 +202,16 @@ fn get_words_from_text(text: &str) -> Vec<(String, (u32, u32))> {
             } else {
                 add_word_fn(&mut current_word, &mut words, word_start_char, current_line);
             }
+
             current_char += 1;
+            i += 1;
         }
+
         add_word_fn(&mut current_word, &mut words, word_start_char, current_line);
         current_line += 1;
         current_char = 0;
     }
+
     words
 }
 
