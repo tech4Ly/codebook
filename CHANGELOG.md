@@ -1,3 +1,8 @@
+[0.2.1]
+
+- Fix a char boundary issue
+- Add ES and EN_GB dictionaries that actually work
+
 [0.2.0]
 
 - Rework config to allow for global config.
