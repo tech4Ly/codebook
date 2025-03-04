@@ -6,6 +6,7 @@ mod splitter;
 
 use std::sync::Arc;
 
+use ::log::info;
 use codebook_config::CodebookConfig;
 use dictionaries::{dictionary, manager::DictionaryManager};
 use dictionary::Dictionary;
@@ -87,6 +88,7 @@ impl Codebook {
         };
         dictionary_ids.extend(DEFAULT_DICTIONARIES.iter().map(|f| f.to_string()));
         let mut dictionaries = Vec::with_capacity(dictionary_ids.len());
+        info!("Checking text with dictionaries: {:?}", dictionary_ids);
         for dictionary_id in dictionary_ids {
             let dictionary = self.manager.get_dictionary(&dictionary_id);
             match dictionary {

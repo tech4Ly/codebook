@@ -77,7 +77,7 @@ def mainee():
     if resalt == 15:
         print("Currect anser!\n youu best")
     else:
-        print("Rong anser!")
+        print("Rong anse!")
 
     # Whiel loop with misspellings
     countr = 0
