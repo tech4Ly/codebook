@@ -161,7 +161,7 @@ test("should provide diagnostics for all example files", async () => {
             reject(error);
           }
         });
-
+        console.log(`Sending didOpen notification for ${file}`);
         languageClient.sendNotification("textDocument/didOpen", {
           textDocument: {
             uri: `file:///${file}`,
