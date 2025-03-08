@@ -35,6 +35,11 @@ impl Codebook {
         language: Option<queries::LanguageType>,
         file_path: Option<&str>,
     ) -> Vec<parser::WordLocation> {
+        if file_path.is_some() {
+            if self.config.should_ignore_path(file_path.unwrap()) {
+                return Vec::new();
+            }
+        }
         // get needed dictionary names
         // get needed dictionaries
         // call spell check on each dictionary
@@ -102,7 +107,7 @@ impl Codebook {
     pub fn spell_check_file(&self, path: &str) -> Vec<WordLocation> {
         let lang_type = queries::get_language_name_from_filename(path);
         let file_text = std::fs::read_to_string(path).unwrap();
-        return self.spell_check(&file_text, Some(lang_type), None);
+        return self.spell_check(&file_text, Some(lang_type), Some(&path));
     }
 
     pub fn get_suggestions(&self, word: &str) -> Option<Vec<String>> {

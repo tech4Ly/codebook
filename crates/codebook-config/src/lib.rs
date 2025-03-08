@@ -375,6 +375,27 @@ impl CodebookConfig {
         Ok(true)
     }
 
+    /// Add a file to the ignore list
+    pub fn add_ignore(&self, file: &str) -> Result<bool, io::Error> {
+        {
+            let mut project_settings = self.project_settings.write().unwrap();
+            let file = file.to_string();
+            // Check if file already exists
+            if project_settings.ignore_paths.contains(&file) {
+                return Ok(false);
+            }
+
+            // Add the file
+            project_settings.ignore_paths.push(file);
+            // Sort/dedup for consistency
+            project_settings.ignore_paths.sort();
+            project_settings.ignore_paths.dedup();
+        }
+        self.recalculate_effective_settings();
+
+        Ok(true)
+    }
+
     /// Save the project configuration to its file
     pub fn save(&self) -> Result<(), io::Error> {
         let project_config_path = match self.project_config_path.as_ref() {

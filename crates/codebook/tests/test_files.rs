@@ -11,6 +11,14 @@ fn example_file_path(file: &str) -> String {
 }
 
 #[test]
+fn test_ignore_file() {
+    utils::init_logging();
+    let processor = utils::get_processor();
+    let results = processor.spell_check("badword", None, Some("ignore.txt"));
+    assert_eq!(results.len(), 0);
+}
+
+#[test]
 fn test_example_files_word_locations() {
     utils::init_logging();
     let files: Vec<(&str, Vec<WordLocation>)> = vec![
