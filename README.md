@@ -33,17 +33,18 @@ Codebook is being developed, but the Zed extension is now live!
 
 | Language | Status |
 | --- | --- |
-| Markdown | ✅ |
-| Plain Text | ✅ |
 | C | ✅ |
-| HTML | ⚠️ |
 | CSS | ⚠️ |
 | Go | ⚠️ |
+| HTML | ⚠️ |
 | JavaScript | ✅ |
-| TypeScript | ✅ |
+| Markdown | ✅ |
+| Plain Text | ✅ |
 | Python | ✅ |
+| Ruby | ✅ |
 | Rust | ✅ |
 | TOML | ✅ |
+| TypeScript | ✅ |
 
 ✅ = Good to go
 ⚠️ = Supported, but needs more testing
@@ -178,7 +179,7 @@ To update the Language server:
 
 To update the Zed Extension:
 
-1. Go to blopker/codebook-zed
+1. Go to https://github.com/blopker/codebook-zed
 1. Update the version in extension.toml
 1. Run `git submodule update --remote --merge extensions/codebook` in zed/extensions
 1. Make a PR to zed/extensions with the updated submodule
