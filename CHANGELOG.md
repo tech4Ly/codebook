@@ -1,3 +1,7 @@
+[0.2.4]
+
+- Make ignore_paths actually work
+
 [0.2.3]
 
 - Handle unicode in a much better way
