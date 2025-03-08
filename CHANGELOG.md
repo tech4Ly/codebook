@@ -1,3 +1,8 @@
+[0.2.3]
+
+- Handle unicode in a much better way
+- Add support for Ruby (Thanks @vitallium!)
+
 [0.2.2]
 
 - Fix a char boundary issue
