@@ -71,7 +71,7 @@ Project-specific configuration is loaded from either `codebook.toml` or `.codebo
 ```toml
 # List of dictionaries to use for spell checking
 # Default: ["en_us"]
-# Other options include "en_gb"
+# Other options include: "en_gb", "es"
 dictionaries = ["en_us", "en_gb"]
 
 # Custom allowlist of words to ignore (case-insensitive)
