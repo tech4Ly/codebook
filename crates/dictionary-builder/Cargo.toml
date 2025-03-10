@@ -24,7 +24,3 @@ walkdir.workspace = true
 [lib]
 name = "dictionary_builder"
 path = "src/lib.rs"
-
-[[bin]]
-name = "dictionary-builder"
-path = "src/main.rs"
