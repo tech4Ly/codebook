@@ -6,6 +6,7 @@ use codebook::parser::TextRange;
 use codebook::parser::WordLocation;
 use codebook::parser::get_word_from_string;
 use codebook::queries::LanguageType;
+use log::error;
 use serde_json::Value;
 use tokio::task;
 use tower_lsp::jsonrpc::Result as RpcResult;
@@ -84,6 +85,12 @@ impl LanguageServer for Backend {
     }
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
+        debug!(
+            "Opened document: uri {:?}, language: {}, version: {}",
+            params.text_document.uri,
+            params.text_document.language_id,
+            params.text_document.version
+        );
         self.document_cache.insert(&params.text_document);
         self.spell_check(&params.text_document.uri).await;
     }
@@ -97,6 +104,7 @@ impl LanguageServer for Backend {
     }
 
     async fn did_save(&self, params: DidSaveTextDocumentParams) {
+        debug!("Saved document: {}", params.text_document.uri);
         if let Some(text) = params.text {
             self.document_cache.update(&params.text_document.uri, &text);
             self.spell_check(&params.text_document.uri).await;
@@ -104,6 +112,10 @@ impl LanguageServer for Backend {
     }
 
     async fn did_change(&self, params: DidChangeTextDocumentParams) {
+        debug!(
+            "Changed document: uri={}, version={}",
+            params.text_document.uri, params.text_document.version
+        );
         let uri = params.text_document.uri;
         if let Some(change) = params.content_changes.first() {
             self.document_cache.update(&uri, &change.text);
@@ -315,8 +327,18 @@ impl Backend {
         let spell_results = task::spawn_blocking(move || {
             cb.spell_check(&doc.text, lang_type, Some(fp.to_str().unwrap_or_default()))
         })
-        .await
-        .unwrap();
+        .await;
+
+        let spell_results = match spell_results {
+            Ok(results) => results,
+            Err(err) => {
+                error!(
+                    "Spell-checking failed for file: {:?} \n Error: {}",
+                    file_path, err
+                );
+                return;
+            }
+        };
 
         // 2) Convert the results to LSP diagnostics.
         let diagnostics: Vec<Diagnostic> = spell_results

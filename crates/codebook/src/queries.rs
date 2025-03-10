@@ -2,10 +2,11 @@ use tree_sitter::Language;
 
 #[derive(Debug, Clone, PartialEq, Copy)]
 pub enum LanguageType {
-    Css,
+    Bash,
     C,
+    Css,
     Go,
-    Html,
+    HTML,
     Javascript,
     Python,
     Ruby,
@@ -41,6 +42,7 @@ impl LanguageType {
 }
 
 // Use https://intmainreturn0.com/ts-visualizer/ to help with writing grammar queries
+// Language ids documented at https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocumentItem
 pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
     LanguageSetting {
         type_: LanguageType::Rust,
@@ -171,7 +173,7 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
         extensions: &["ts", "tsx"],
     },
     LanguageSetting {
-        type_: LanguageType::Html,
+        type_: LanguageType::HTML,
         ids: &["html"],
         dictionary_ids: &["html"],
         query: r#"
@@ -240,6 +242,21 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
             "#,
         extensions: &["rb"],
     },
+    LanguageSetting {
+        type_: LanguageType::Bash,
+        ids: &["bash", "shellscript", "sh", "shell script"],
+        dictionary_ids: &["bash"],
+        query: r#"
+            (comment) @comment
+            (string_content) @string
+            (function_definition
+                name: (word) @identifier)
+            (heredoc_body) @string
+            (variable_assignment
+              name: (variable_name) @identifier)
+        "#,
+        extensions: &["sh", "bash"],
+    },
 ];
 
 #[derive(Debug)]
@@ -255,17 +272,18 @@ pub struct LanguageSetting {
 impl LanguageSetting {
     pub fn language(&self) -> Option<Language> {
         match self.type_ {
-            LanguageType::Rust => Some(tree_sitter_rust::LANGUAGE.into()),
+            LanguageType::Bash => Some(tree_sitter_bash::LANGUAGE.into()),
             LanguageType::C => Some(tree_sitter_c::LANGUAGE.into()),
-            LanguageType::Python => Some(tree_sitter_python::LANGUAGE.into()),
-            LanguageType::Javascript => Some(tree_sitter_javascript::LANGUAGE.into()),
-            LanguageType::Typescript => Some(tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into()),
-            LanguageType::Html => Some(tree_sitter_html::LANGUAGE.into()),
             LanguageType::Css => Some(tree_sitter_css::LANGUAGE.into()),
             LanguageType::Go => Some(tree_sitter_go::LANGUAGE.into()),
-            LanguageType::TOML => Some(tree_sitter_toml_ng::LANGUAGE.into()),
+            LanguageType::HTML => Some(tree_sitter_html::LANGUAGE.into()),
+            LanguageType::Javascript => Some(tree_sitter_javascript::LANGUAGE.into()),
+            LanguageType::Python => Some(tree_sitter_python::LANGUAGE.into()),
             LanguageType::Ruby => Some(tree_sitter_ruby::LANGUAGE.into()),
+            LanguageType::Rust => Some(tree_sitter_rust::LANGUAGE.into()),
+            LanguageType::TOML => Some(tree_sitter_toml_ng::LANGUAGE.into()),
             LanguageType::Text => None,
+            LanguageType::Typescript => Some(tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into()),
         }
     }
 }
