@@ -4,23 +4,23 @@ version = "0.2.4"
 edition = "2024"
 
 [dependencies]
-streaming-iterator = "0.1.9"
-tower-lsp = "0.20.0"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-fs2 = "0.4"
-tokio = { version = "1", features = ["full"] }
-env_logger = "0.11.6"
-log = "0.4.22"
-codebook = { path = "../codebook" }
-codebook_config = { path = "../codebook-config" }
-clap = { version = "4.5.26", features = ["derive"] }
-lru = "0.13"
-openssl = { version = "*", features = ["vendored"] }
+streaming-iterator.workspace = true
+tower-lsp.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+fs2.workspace = true
+tokio.workspace = true
+env_logger.workspace = true
+log.workspace = true
+clap.workspace = true
+lru.workspace = true
+openssl.workspace = true
 
+codebook.workspace = true
+codebook_config.workspace = true
 
 [build-dependencies]
 cc = "1.0"
 
 [dev-dependencies]
-tempfile = "3"
+tempfile.workspace = true

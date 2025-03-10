@@ -4,34 +4,34 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-lazy_static = "1.5.0"
-regex = "1.11.1"
-spellbook = "0.3.0"
-tree-sitter = "<0.26.0"
-tree-sitter-bash = "<0.24.0"
-tree-sitter-css = "<0.25.0"
-tree-sitter-rust = "<0.25.0"
-tree-sitter-python = "<0.25.0"
-tree-sitter-javascript = "<0.25.0"
-tree-sitter-html = "<0.25.0"
-tree-sitter-go = "<0.25.0"
-tree-sitter-toml-ng = "<0.8.0"
-tree-sitter-c = "<0.25.0"
-tree-sitter-ruby = "0.23.1"
-streaming-iterator = "0.1.9"
-tower-lsp = "0.20.0"
-tree-sitter-typescript = "0.23.2"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-fs2 = "0.4"
-tokio = { version = "1", features = ["full"] }
-env_logger = "0.11.6"
-log = "0.4.22"
-lru = "0.13"
-unicode-segmentation = "1.12.0"
+lazy_static.workspace = true
+regex.workspace = true
+spellbook.workspace = true
+tree-sitter.workspace = true
+tree-sitter-bash.workspace = true
+tree-sitter-css.workspace = true
+tree-sitter-rust.workspace = true
+tree-sitter-python.workspace = true
+tree-sitter-javascript.workspace = true
+tree-sitter-html.workspace = true
+tree-sitter-go.workspace = true
+tree-sitter-toml-ng.workspace = true
+tree-sitter-c.workspace = true
+tree-sitter-ruby.workspace = true
+streaming-iterator.workspace = true
+tower-lsp.workspace = true
+tree-sitter-typescript.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+fs2.workspace = true
+tokio.workspace = true
+env_logger.workspace = true
+log.workspace = true
+lru.workspace = true
+unicode-segmentation.workspace = true
 
-codebook_config = { path = "../codebook-config" }
-downloader = { path = "../downloader" }
+codebook_config.workspace = true
+downloader.workspace = true
 
 [dev-dependencies]
-tempfile = "3"
+tempfile.workspace = true
