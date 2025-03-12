@@ -48,228 +48,77 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
         type_: LanguageType::Rust,
         ids: &["rust"],
         dictionary_ids: &["rust"],
-        query: r#"
-                (function_item
-                    name: (identifier) @identifier)
-                (parameter
-                    pattern: (identifier) @identifier)
-                (let_declaration
-                    pattern: (identifier) @identifier)
-                (struct_item
-                    name: (type_identifier) @identifier)
-                (field_declaration
-                    name: (field_identifier) @identifier)
-                (line_comment) @comment
-                (string_content) @string
-                (char_literal) @string
-                "#,
+        query: include_str!("queries/rust.scm"),
         extensions: &["rs"],
     },
     LanguageSetting {
         type_: LanguageType::C,
         ids: &["c"],
         dictionary_ids: &["c"],
-        query: r#"
-                (comment) @comment
-                (preproc_def
-                name: (identifier) @identifier)
-                (type_definition
-                declarator: (type_identifier) @identifier)
-                (struct_specifier
-                name: (type_identifier) @identifier)
-                (field_declaration
-                    declarator: (field_identifier) @identifier)
-                (pointer_declarator
-                    declarator: (field_identifier) @identifier)
-                (enum_specifier
-                name: (type_identifier) @identifier)
-                (enumerator
-                    name: (identifier) @identifier)
-                (init_declarator
-                    declarator: (identifier) @identifier)
-                (pointer_declarator
-                    declarator: (identifier) @identifier)
-                (init_declarator
-                    (string_literal
-                    (string_content) @string_content))
-                (function_declarator
-                    declarator: (identifier) @identifier)
-                (parameter_declaration
-                    declarator: (identifier) @identifier)
-                    (call_expression
-                (argument_list
-                    (string_literal
-                        [(string_content) (escape_sequence)] @string)))
-                "#,
+        query: include_str!("queries/c.scm"),
         extensions: &["c", "h"],
     },
     LanguageSetting {
         type_: LanguageType::Python,
         ids: &["python"],
         dictionary_ids: &["python"],
-        query: r#"
-            (comment) @comment
-            (string) @string
-            (function_definition
-                name: (identifier) @identifier)
-            (function_definition
-                parameters: (parameters) @identifier)
-            (class_definition
-                name: (identifier) @identifier)
-            (assignment
-                (identifier) @identifier)
-                "#,
+        query: include_str!("queries/python.scm"),
         extensions: &["py"],
     },
     LanguageSetting {
         type_: LanguageType::Javascript,
         ids: &["javascript", "javascriptreact"],
         dictionary_ids: &["javascript", "javascriptreact"],
-        query: r#"
-            (comment) @comment
-            (string_fragment) @string
-            (variable_declarator
-                name: (identifier) @identifier)
-            (object
-                (pair
-                key: (property_identifier) @property_name))
-            (catch_clause
-                parameter: (identifier) @identifier)
-            (jsx_text) @string
-            (shorthand_property_identifier) @identifier
-            (function_declaration
-                name: (identifier) @identifier)
-            (function_declaration
-                parameters: (formal_parameters
-                (identifier) @identifier))
-            (method_definition
-                name: (property_identifier) @identifier)
-            (class_declaration
-                name: (identifier) @identifier)
-                "#,
+        query: include_str!("queries/javascript.scm"),
         extensions: &["js", "jsx"],
     },
     LanguageSetting {
         type_: LanguageType::Typescript,
         ids: &["typescript", "typescriptreact"],
         dictionary_ids: &["typescript", "typescriptreact"],
-        query: r#"
-            (comment) @comment
-            (string_fragment) @string
-            (variable_declarator
-                name: (identifier) @identifier)
-            (object
-                (pair
-                key: (property_identifier) @property_name))
-            (interface_declaration
-                name: (type_identifier) @identifier)
-            (interface_body
-                (property_signature
-                    name: (property_identifier) @property_name))
-            (catch_clause
-                parameter: (identifier) @identifier)
-            (jsx_text) @string
-            (shorthand_property_identifier) @identifier
-            (function_declaration
-                name: (identifier) @identifier)
-            (formal_parameters
-                (required_parameter
-                pattern: (identifier) @identifier))
-            (formal_parameters
-                (optional_parameter
-                pattern: (identifier) @identifier))
-            (method_definition
-                name: (property_identifier) @identifier)
-            (class_declaration
-                name: (type_identifier) @identifier)
-            (public_field_definition
-                name: (property_identifier) @identifier)
-                "#,
+        query: include_str!("queries/typescript.scm"),
         extensions: &["ts", "tsx"],
     },
     LanguageSetting {
         type_: LanguageType::HTML,
         ids: &["html"],
         dictionary_ids: &["html"],
-        query: r#"
-            (text) @string
-            (comment) @comment
-            (quoted_attribute_value) @string
-            "#,
+        query: include_str!("queries/html.scm"),
         extensions: &["html", "htm"],
     },
     LanguageSetting {
         type_: LanguageType::Css,
         ids: &["css"],
         dictionary_ids: &["css"],
-        query: r#"
-            (class_name) @identifier
-            (id_name) @identifier
-            (property_name) @identifier
-            (comment) @comment
-            (string_value) @string
-            (plain_value) @identifier
-            "#,
+        query: include_str!("queries/css.scm"),
         extensions: &["css"],
     },
     LanguageSetting {
         type_: LanguageType::Go,
         ids: &["go"],
         dictionary_ids: &["go"],
-        query: r#"
-                (comment) @comment
-                (argument_list (interpreted_string_literal) @string)
-                (function_declaration (identifier) @identifier)
-                (raw_string_literal) @raw_string
-                (expression_list
-                    (interpreted_string_literal) @string
-                )
-                (var_spec (identifier) @identifier)
-                "#,
+        query: include_str!("queries/go.scm"),
         extensions: &["go"],
     },
     LanguageSetting {
         type_: LanguageType::TOML,
         ids: &["toml"],
         dictionary_ids: &["toml"],
-        query: r#"
-            (string) @string
-            (comment) @comment
-            "#,
+        query: include_str!("queries/toml.scm"),
         extensions: &["toml"],
     },
     LanguageSetting {
         type_: LanguageType::Ruby,
         ids: &["ruby"],
         dictionary_ids: &["ruby"],
-        query: r#"
-            (string) @string
-            (comment) @comment
-            (assignment (identifier) @identifier)
-            (method
-              (method_parameters (keyword_parameter (identifier) @identifier)))
-            (method
-              (method_parameters (identifier) @identifier))
-            (heredoc_body
-              (heredoc_content) @string
-              (heredoc_end) @language
-              (#downcase! @language))
-            "#,
+        query: include_str!("queries/ruby.scm"),
         extensions: &["rb"],
     },
     LanguageSetting {
         type_: LanguageType::Bash,
         ids: &["bash", "shellscript", "sh", "shell script"],
         dictionary_ids: &["bash"],
-        query: r#"
-            (comment) @comment
-            (string_content) @string
-            (function_definition
-                name: (word) @identifier)
-            (heredoc_body) @string
-            (variable_assignment
-              name: (variable_name) @identifier)
-        "#,
+        query: include_str!("queries/bash.scm"),
         extensions: &["sh", "bash"],
     },
 ];
