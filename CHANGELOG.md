@@ -1,3 +1,8 @@
+[Unreleased]
+
+- JavaScript: Make properties on object definitions check, and try/catch error definitions
+- TypeScript: Make properties on object definitions check, try/catch error definitions, and interface support
+
 [0.2.4]
 
 - Make ignore_paths actually work

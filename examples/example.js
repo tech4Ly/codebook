@@ -63,6 +63,6 @@ const userAccaunt = {
   emale: "john@example.com",
   ballance: 1000,
 };
-
+const obj = userAccaunt;
 // Exportt the funcsions
 export { calculater, validateInputt, prosessArray };

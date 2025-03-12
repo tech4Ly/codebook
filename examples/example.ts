@@ -33,6 +33,14 @@ function prosessArray(arr: number[]) {
   return totel;
 }
 
+interface UsarProifle {
+  id: number;
+  firstName: string;
+  lastName: string;
+  emailAdress: string;
+  isActtive: boolean;
+}
+
 // Object with propertys
 const userAccaunt = {
   usrname: "JohnDoe",
@@ -40,6 +48,8 @@ const userAccaunt = {
   emale: "john@example.com",
   ballance: 1000,
 };
+
+const userBalance = userAccaunt;
 
 // Class example with typical spelling mistakes
 class BankAccaunt {
@@ -50,6 +60,7 @@ class BankAccaunt {
   constructor(ownerName: string, accauntNumber?: string, initialBallance = 0) {
     this.ownerName = ownerName;
     this.accauntNumber = accauntNumber || "";
+    console.log(this.accauntNumber);
     this.ballance = initialBallance;
   }
 
