@@ -15,7 +15,7 @@
 <img
   src="assets/example.png" alt="Logo" width="400" >
 
-No setup needed. Code book will automatically detect the language you are editing and mark issues for you. Note, Codebook will only mark issues that you control, where they are initially defined.
+No setup needed. Code book will automatically detect the language you are editing and mark issues for you. Note, Codebook will only mark issues for words that you control, where they are initially defined.
 
 ## Install
 
@@ -25,13 +25,17 @@ Codebook is currently only available for the Zed editor. To install, go to the E
 
 ## About
 
-Codebook is a spellchecker for code. It binds together the venerable Tree Sitter and the fast spell checker [Spellbook](https://github.com/helix-editor/spellbook). Included is a Language Server for use in any editor. Everything is done in Rust to keep response times snappy and memory usage _low_.
+Codebook is a spellchecker for code. It binds together the venerable Tree Sitter and the fast spell checker [Spellbook](https://github.com/helix-editor/spellbook). Included is a Language Server for use in (theoretically) any editor. Everything is done in Rust to keep response times snappy and memory usage _low_.
+
+However, if you are looking for a traditional spellchecker for _prose_, Codebook may not be what you are looking for. For example, capitalization issues are handled loosely and grammar checking is out of scope.
+
+To see the motivations behind Codebook, read [this blog post](https://blopker.com/writing/09-survey-of-the-current-state-of-code-spell-checking/).
 
 ## Status
 
 Codebook is being developed, but the Zed extension is now live!
 
-### Supported Languages
+### Supported Programming Languages
 
 | Language | Status |
 | --- | --- |
@@ -50,6 +54,8 @@ Codebook is being developed, but the Zed extension is now live!
 
 ✅ = Good to go
 ⚠️ = Supported, but needs more testing
+
+If Codebook is not marking issues you think it should, please file a GitHub issue!
 
 ## Configuration
 
@@ -142,7 +148,7 @@ Codebook comes with a language server. Originally developed for the Zed editor, 
 
 ### Dictionary Management
 
-Codebook comes with a dictionary manager, which will automatically download and cache dictionaries for a large number of written languages.
+Codebook comes with a dictionary manager, which will automatically download and cache dictionaries.
 
 ### Hierarchical Configuration
 
