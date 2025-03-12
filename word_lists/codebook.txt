@@ -29,6 +29,7 @@ pst
 redownload
 roadmap
 rpc
+scm
 semibold
 sha
 ssl
