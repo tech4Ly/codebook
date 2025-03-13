@@ -42,6 +42,7 @@ admin
 ads
 after
 agent
+aita
 ajax
 alert
 align
@@ -76,6 +77,7 @@ annotation
 annotations
 another
 ant
+anthropomorphization
 antialiased
 any
 anyref
@@ -111,6 +113,7 @@ arrow
 arrowthick
 article
 as
+asap
 aside
 aslist
 assert
@@ -161,6 +164,7 @@ backend
 backends
 backface
 background
+backtick
 backticks
 backward
 bad
@@ -205,6 +209,7 @@ bitfield
 bits
 black
 blank
+blazingly
 blk
 block
 blocklist
@@ -402,6 +407,7 @@ comments
 commit
 common
 commons
+comms
 compatible
 compile
 compiler
@@ -433,6 +439,7 @@ constr
 constructor
 consts
 contact
+contactless
 contain
 container
 containerarrayelem
@@ -455,6 +462,7 @@ copy
 coq
 core
 corner
+coronavirus
 correct
 cors
 could
@@ -482,6 +490,7 @@ ctx
 ctxt
 cubic
 cur
+curbside
 current
 currently
 currenttimemillis
@@ -574,6 +583,13 @@ dirname
 dirs
 disable
 disabled
+discretization
+discretize
+discretized
+disincentivize
+disincentivized
+disincentivizes
+disincentivizing
 disk
 display
 dispose
@@ -618,6 +634,7 @@ doxygen
 drag
 draggable
 drawable
+drive
 driver
 drop
 dropdown
@@ -633,6 +650,7 @@ during
 dword
 dx
 dximagetransform
+déjà
 each
 ease
 easing
@@ -744,6 +762,7 @@ extensions
 extern
 external
 extra
+extremum
 fa
 face
 facebook
@@ -807,9 +826,11 @@ flex
 flexbox
 float
 floor
+flotus
 flow
 fluid
 flush
+flyout
 fmt
 fn
 fname
@@ -819,6 +840,7 @@ focus
 focused
 folder
 following
+fomo
 font
 fontawesome
 fonts
@@ -845,6 +867,7 @@ framed
 frames
 framework
 free
+freemium
 from
 fs
 ftype
@@ -1005,11 +1028,13 @@ idx
 ie
 if
 iframe
+ifttt
 ignore
 illegalargumentexception
 illegalstateexception
 image
 images
+imax
 img
 immutablelist
 impl
@@ -1033,6 +1058,7 @@ infinite
 influxql
 info
 infof
+infographic
 information
 inherit
 inheritance
@@ -1172,6 +1198,7 @@ kubelet
 kubernetes
 kw
 kwargs
+kyiv
 label
 labels
 lambda
@@ -1376,6 +1403,7 @@ mt
 mu
 mui
 multi
+multiline
 multipage
 multiple
 must
@@ -1396,12 +1424,14 @@ navbarcellrev
 navbarfontrev
 navigation
 navlist
+naïve
 nbsp
 ne
 necessary
 need
 needed
 needs
+negatable
 nested
 net
 netty
@@ -1515,6 +1545,7 @@ ordering
 org
 origin
 original
+orléans
 orm
 os
 oserror
@@ -1551,6 +1582,7 @@ pagetoken
 pagination
 pane
 panel
+pangram
 panic
 par
 param
@@ -1643,6 +1675,7 @@ possible
 post
 postindex
 posts
+potus
 pre
 prefix
 prelude
@@ -1711,6 +1744,7 @@ raises
 rand
 random
 range
+rasterize
 raw
 rbml
 rc
@@ -1724,6 +1758,9 @@ readonly
 ready
 real
 reason
+reauthenticete
+rebrand
+rebranding
 receiver
 record
 rect
@@ -1785,6 +1822,11 @@ result
 results
 resultset
 ret
+retraumatization
+retraumatize
+retraumatized
+retraumatizes
+retraumatizing
 retrieved
 return
 returned
@@ -1853,8 +1895,10 @@ scaled
 scene
 schema
 schemaprops
+scm
 scope
 scopes
+scotus
 screen
 script
 scripts
@@ -2119,6 +2163,7 @@ tcx
 td
 teal
 teardown
+teleconverter
 temp
 tempfile
 template
@@ -2164,6 +2209,7 @@ throw
 throwable
 thrown
 throws
+thru
 thumb
 thumbnail
 thumbs
@@ -2179,6 +2225,7 @@ tip
 title
 titlebar
 tl
+tldr
 tls
 tm
 tmp
@@ -2286,10 +2333,17 @@ unix
 unixnano
 unknown
 unlock
+unmaneuverable
 unmarshal
+unparsable
+unpatched
 unreachable
 unrecognized
 unsafe
+unsecure
+unsecured
+unsecures
+unsecuring
 unstable
 unsupportedoperationexception
 until
@@ -2301,6 +2355,7 @@ update
 updated
 upload
 uppercase
+upscaled
 uri
 url
 urllib
@@ -2309,6 +2364,7 @@ urls
 us
 usa
 usage
+usd
 use
 used
 user
@@ -2343,6 +2399,8 @@ vars
 vc
 vec
 vector
+vendored
+vendoring
 verbose
 verdana
 verify
@@ -2444,6 +2502,7 @@ xmlwriter
 xrange
 xs
 xxx
+xxxl
 yaml
 year
 yellow
@@ -2451,6 +2510,7 @@ yes
 yet
 yield
 yii
+yolo
 you
 your
 yui
