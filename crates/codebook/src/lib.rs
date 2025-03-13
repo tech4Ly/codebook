@@ -35,10 +35,8 @@ impl Codebook {
         language: Option<queries::LanguageType>,
         file_path: Option<&str>,
     ) -> Vec<parser::WordLocation> {
-        if file_path.is_some() {
-            if self.config.should_ignore_path(file_path.unwrap()) {
-                return Vec::new();
-            }
+        if file_path.is_some() && self.config.should_ignore_path(file_path.unwrap()) {
+            return Vec::new();
         }
         // get needed dictionary names
         // get needed dictionaries
@@ -84,21 +82,17 @@ impl Codebook {
         language: Option<queries::LanguageType>,
     ) -> Vec<Arc<dyn Dictionary>> {
         let mut dictionary_ids = self.config.get_dictionary_ids();
-        match language {
-            Some(lang) => {
-                let language_dictionary_ids = lang.dictionary_ids();
-                dictionary_ids.extend(language_dictionary_ids);
-            }
-            None => {}
+        if let Some(lang) = language {
+            let language_dictionary_ids = lang.dictionary_ids();
+            dictionary_ids.extend(language_dictionary_ids);
         };
         dictionary_ids.extend(DEFAULT_DICTIONARIES.iter().map(|f| f.to_string()));
         let mut dictionaries = Vec::with_capacity(dictionary_ids.len());
         info!("Checking text with dictionaries: {:?}", dictionary_ids);
         for dictionary_id in dictionary_ids {
             let dictionary = self.manager.get_dictionary(&dictionary_id);
-            match dictionary {
-                Some(d) => dictionaries.push(d),
-                None => {}
+            if let Some(d) = dictionary {
+                dictionaries.push(d);
             }
         }
         dictionaries
@@ -107,7 +101,7 @@ impl Codebook {
     pub fn spell_check_file(&self, path: &str) -> Vec<WordLocation> {
         let lang_type = queries::get_language_name_from_filename(path);
         let file_text = std::fs::read_to_string(path).unwrap();
-        return self.spell_check(&file_text, Some(lang_type), Some(&path));
+        self.spell_check(&file_text, Some(lang_type), Some(path))
     }
 
     pub fn get_suggestions(&self, word: &str) -> Option<Vec<String>> {

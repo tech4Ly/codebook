@@ -91,12 +91,12 @@ static TEXT_DICTIONARIES: LazyLock<Vec<TextRepo>> = LazyLock::new(|| {
 
 pub fn get_repo(name: &str) -> Option<DictionaryRepo> {
     let res = HUNSPELL_DICTIONARIES.iter().find(|d| d.name == name);
-    if res.is_some() {
-        return Some(DictionaryRepo::Hunspell(res.unwrap().clone()));
+    if let Some(res1) = res {
+        return Some(DictionaryRepo::Hunspell(res1.clone()));
     }
     let res = TEXT_DICTIONARIES.iter().find(|d| d.name == name);
-    if res.is_some() {
-        return Some(DictionaryRepo::Text(res.unwrap().clone()));
+    if let Some(res1) = res {
+        return Some(DictionaryRepo::Text(res1.clone()));
     }
     None
 }

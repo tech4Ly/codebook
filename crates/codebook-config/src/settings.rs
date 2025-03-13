@@ -116,7 +116,6 @@ fn sort_and_dedup(vec: &mut Vec<String>) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use toml;
 
     #[test]
     fn test_default() {

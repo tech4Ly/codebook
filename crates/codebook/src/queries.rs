@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use tree_sitter::Language;
 
 #[derive(Debug, Clone, PartialEq, Copy)]
@@ -16,17 +18,21 @@ pub enum LanguageType {
     Typescript,
 }
 
-impl LanguageType {
-    pub fn from_str(s: &str) -> LanguageType {
+impl FromStr for LanguageType {
+    type Err = ();
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         for language in LANGUAGE_SETTINGS.iter() {
             for id in language.ids.iter() {
                 if s == *id {
-                    return language.type_;
+                    return Ok(language.type_);
                 }
             }
         }
-        LanguageType::Text
+        Ok(LanguageType::Text)
     }
+}
+
+impl LanguageType {
     pub fn dictionary_ids(&self) -> Vec<String> {
         for language in LANGUAGE_SETTINGS.iter() {
             if self == &language.type_ {
@@ -153,20 +159,15 @@ impl LanguageSetting {
 }
 
 pub fn get_language_setting(language_type: LanguageType) -> Option<&'static LanguageSetting> {
-    for setting in LANGUAGE_SETTINGS.iter() {
-        if setting.type_ == language_type {
-            if setting.language().is_some() {
-                return Some(setting);
-            }
-        }
-    }
-    None
+    LANGUAGE_SETTINGS
+        .iter()
+        .find(|&setting| setting.type_ == language_type && setting.language().is_some())
 }
 
 pub fn get_language_name_from_filename(filename: &str) -> LanguageType {
     let extension = filename.split('.').last().unwrap();
-    for setting in LANGUAGE_SETTINGS.iter() {
-        for ext in setting.extensions.iter() {
+    for setting in LANGUAGE_SETTINGS {
+        for ext in setting.extensions {
             if ext == &extension {
                 return setting.type_;
             }

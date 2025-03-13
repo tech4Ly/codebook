@@ -1,5 +1,6 @@
 use std::collections::HashMap;
-use std::path::PathBuf;
+use std::path::Path;
+use std::str::FromStr as _;
 use std::sync::Arc;
 
 use codebook::parser::TextRange;
@@ -125,10 +126,7 @@ impl LanguageServer for Backend {
 
     async fn code_action(&self, params: CodeActionParams) -> RpcResult<Option<CodeActionResponse>> {
         let mut actions: Vec<CodeActionOrCommand> = vec![];
-        let doc = match self
-            .document_cache
-            .get(&params.text_document.uri.to_string())
-        {
+        let doc = match self.document_cache.get(params.text_document.uri.as_ref()) {
             Some(doc) => doc,
             None => return Ok(None),
         };
@@ -201,7 +199,7 @@ impl LanguageServer for Backend {
 }
 
 impl Backend {
-    pub fn new(client: Client, workspace_dir: &PathBuf) -> Self {
+    pub fn new(client: Client, workspace_dir: &Path) -> Self {
         let config = CodebookConfig::load(Some(workspace_dir)).expect("Unable to make config.");
         let config_arc = Arc::new(config);
         let cb_config = Arc::clone(&config_arc);
@@ -262,7 +260,7 @@ impl Backend {
         map.insert(
             uri.clone(),
             vec![TextEdit {
-                range: range.clone(),
+                range: *range,
                 new_text: suggestion.to_string(),
             }],
         );
@@ -309,7 +307,7 @@ impl Backend {
 
     /// Helper method to publish diagnostics for spell-checking.
     async fn publish_spellcheck_diagnostics(&self, uri: &Url) {
-        let doc = match self.document_cache.get(&uri.to_string()) {
+        let doc = match self.document_cache.get(uri.as_ref()) {
             Some(doc) => doc,
             None => return,
         };
@@ -317,10 +315,10 @@ impl Backend {
         let file_path = doc.uri.to_file_path().unwrap_or_default();
         info!("Spell-checking file: {:?}", file_path);
         // 1) Perform spell-check.
-        let lang_type = match doc.language_id.as_deref() {
-            Some(lang) => Some(LanguageType::from_str(lang)),
-            _ => None,
-        };
+        let lang_type = doc
+            .language_id
+            .as_deref()
+            .map(|lang| LanguageType::from_str(lang).unwrap());
 
         let cb = self.codebook.clone();
         let fp = file_path.clone();
