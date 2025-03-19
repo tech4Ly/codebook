@@ -1,15 +1,15 @@
 pub mod dictionaries;
-mod log;
+mod logging;
 pub mod parser;
 pub mod queries;
 mod splitter;
 
 use std::sync::Arc;
 
-use ::log::info;
 use codebook_config::CodebookConfig;
 use dictionaries::{dictionary, manager::DictionaryManager};
 use dictionary::Dictionary;
+use log::info;
 use parser::WordLocation;
 
 pub struct Codebook {
@@ -22,7 +22,6 @@ static DEFAULT_DICTIONARIES: &[&str; 3] = &["codebook", "software_terms", "compu
 
 impl Codebook {
     pub fn new(config: Arc<CodebookConfig>) -> Result<Self, Box<dyn std::error::Error>> {
-        crate::log::init_logging();
         let manager = DictionaryManager::new(&config.cache_dir);
         Ok(Self { config, manager })
     }

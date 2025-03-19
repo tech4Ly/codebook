@@ -77,7 +77,23 @@ impl LanguageServer for Backend {
     }
 
     async fn initialized(&self, _: InitializedParams) {
-        info!("Server ready");
+        info!("Server ready!");
+        info!(
+            "Project config: {}",
+            self.config
+                .project_config_path
+                .clone()
+                .unwrap_or_default()
+                .display()
+        );
+        info!(
+            "Global config: {}",
+            self.config
+                .global_config_path
+                .clone()
+                .unwrap_or_default()
+                .display()
+        );
     }
 
     async fn shutdown(&self) -> RpcResult<()> {
@@ -186,6 +202,10 @@ impl LanguageServer for Backend {
                     .arguments
                     .iter()
                     .filter_map(|arg| arg.as_str().map(|s| s.to_string()));
+                info!(
+                    "Adding words to dictionary {}",
+                    words.clone().collect::<Vec<String>>().join(", ")
+                );
                 let updated = self.add_words(words);
                 if updated {
                     let _ = self.config.save();
