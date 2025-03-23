@@ -175,3 +175,38 @@ pub fn get_language_name_from_filename(filename: &str) -> LanguageType {
     }
     LanguageType::Text
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tree_sitter::Query;
+
+    #[test]
+    fn test_all_queries_are_valid() {
+        for language_setting in LANGUAGE_SETTINGS {
+            // Skip testing Text since it doesn't have a language or query
+            if language_setting.type_ == LanguageType::Text {
+                continue;
+            }
+
+            // Get the language for this setting
+            let language = match language_setting.language() {
+                Some(lang) => lang,
+                None => {
+                    panic!("Failed to get language for {:?}", language_setting.type_);
+                }
+            };
+
+            // Try to create a Query with the language and query
+            let query_result = Query::new(&language, language_setting.query);
+
+            // Assert that the query is valid
+            assert!(
+                query_result.is_ok(),
+                "Invalid query for language {:?}: {:?}",
+                language_setting.type_,
+                query_result.err()
+            );
+        }
+    }
+}
