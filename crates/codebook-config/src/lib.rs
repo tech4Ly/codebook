@@ -819,9 +819,11 @@ mod tests {
         )?;
 
         // Create a mock config with our test paths
-        let mut config = CodebookConfig::default();
-        config.global_config_path = Some(global_config_path);
-        config.project_config_path = Some(project_config_path);
+        let config = CodebookConfig {
+            global_config_path: Some(global_config_path),
+            project_config_path: Some(project_config_path),
+            ..Default::default()
+        };
 
         // Manually load both configs to test merging
         if let Ok(global_settings) =

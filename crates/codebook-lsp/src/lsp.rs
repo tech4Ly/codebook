@@ -156,7 +156,7 @@ impl LanguageServer for Backend {
             let start_char = diag.range.start.character as usize;
             let end_char = diag.range.end.character as usize;
             let word = get_word_from_string(start_char, end_char, line);
-            if word.is_empty() {
+            if word.is_empty() || word.contains(" ") {
                 continue;
             }
             let cb = self.codebook.clone();
