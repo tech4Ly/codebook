@@ -10,6 +10,7 @@ pub enum LanguageType {
     Go,
     HTML,
     Javascript,
+    Php,
     Python,
     Ruby,
     Rust,
@@ -127,6 +128,14 @@ pub static LANGUAGE_SETTINGS: &[LanguageSetting] = &[
         query: include_str!("queries/bash.scm"),
         extensions: &["sh", "bash"],
     },
+    // Added PHP
+    LanguageSetting {
+        type_: LanguageType::Php,
+        ids: &["php"],
+        dictionary_ids: &["php"],
+        query: include_str!("queries/php.scm"),
+        extensions: &["php"],
+    },
 ];
 
 #[derive(Debug)]
@@ -148,6 +157,7 @@ impl LanguageSetting {
             LanguageType::Go => Some(tree_sitter_go::LANGUAGE.into()),
             LanguageType::HTML => Some(tree_sitter_html::LANGUAGE.into()),
             LanguageType::Javascript => Some(tree_sitter_javascript::LANGUAGE.into()),
+            LanguageType::Php => Some(tree_sitter_php::LANGUAGE_PHP.into()),
             LanguageType::Python => Some(tree_sitter_python::LANGUAGE.into()),
             LanguageType::Ruby => Some(tree_sitter_ruby::LANGUAGE.into()),
             LanguageType::Rust => Some(tree_sitter_rust::LANGUAGE.into()),
