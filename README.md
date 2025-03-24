@@ -247,10 +247,3 @@ To update the Language server:
 1. Follow instructions
 1. Go to GitHub Releases
 1. Un-mark "prerelease" and publish
-
-To update the Zed Extension:
-
-1. Go to https://github.com/blopker/codebook-zed
-1. Update the version in extension.toml
-1. Run `git submodule update --remote --merge extensions/codebook` in zed/extensions
-1. Make a PR to zed/extensions with the updated submodule
