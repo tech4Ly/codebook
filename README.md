@@ -175,7 +175,7 @@ Create a new `.scm` file in `codebook/crates/codebook/src/queries/` named after 
 To write an effective query, you need to understand the Abstract Syntax Tree (AST) structure of your language. Use these tools:
 
 - [Tree-sitter Playground](https://tree-sitter.github.io/tree-sitter/7-playground.html): Interactively explore how Tree-sitter parses code
-- [Tree-sitter Visualizer](https://intmainreturn0.com/ts-visualizer/): Visualize the AST of your code in a more detailed way
+- [Tree-sitter Visualizer](https://blopker.github.io/ts-visualizer/): Visualize the AST of your code in a more detailed way
 
 A good approach is to:
 1. Write sample code with identifiers, strings, and comments
