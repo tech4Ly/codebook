@@ -1,5 +1,8 @@
 [Unreleased]
 
+- Fairly get suggestions from all active dictionaries.
+- Add PHP support.
+- Fix codebook.toml not being created in new projects on "Add to dictionary".
 - JavaScript: Make properties on object definitions check, and try/catch error definitions
 - TypeScript: Make properties on object definitions check, try/catch error definitions, and interface support
 

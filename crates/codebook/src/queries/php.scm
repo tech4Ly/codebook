@@ -5,7 +5,6 @@
 (string_content) @string
 
 ; Names (covers function names, class names, etc.)
-; (name) @identifier
 (class_declaration
     name: (name) @identifier)
 (const_declaration
@@ -24,5 +23,3 @@
     (variable_name (name) @identifier))
 (catch_clause
     (variable_name (name) @identifier))
-; Variable names - simplified with no nested structure
-; (variable_name) @identifier
