@@ -71,18 +71,11 @@ $userDetails = $userr->getUserDeetails();
         ),
         WordLocation::new(
             "Servicce".to_string(),
-            vec![
-                TextRange {
-                    start_char: 10,
-                    end_char: 18,
-                    line: 7,
-                },
-                TextRange {
-                    start_char: 17,
-                    end_char: 25,
-                    line: 48,
-                },
-            ],
+            vec![TextRange {
+                start_char: 10,
+                end_char: 18,
+                line: 7,
+            }],
         ),
         WordLocation::new(
             "ACTIVVE".to_string(),
@@ -105,21 +98,6 @@ $userDetails = $userr->getUserDeetails();
                     end_char: 40,
                     line: 16,
                 },
-                TextRange {
-                    start_char: 19,
-                    end_char: 22,
-                    line: 17,
-                },
-                TextRange {
-                    start_char: 30,
-                    end_char: 33,
-                    line: 17,
-                },
-                TextRange {
-                    start_char: 65,
-                    end_char: 68,
-                    line: 23,
-                },
             ],
         ),
         WordLocation::new(
@@ -135,32 +113,15 @@ $userDetails = $userr->getUserDeetails();
                     end_char: 52,
                     line: 16,
                 },
-                TextRange {
-                    start_char: 15,
-                    end_char: 24,
-                    line: 18,
-                },
-                TextRange {
-                    start_char: 28,
-                    end_char: 37,
-                    line: 18,
-                },
             ],
         ),
         WordLocation::new(
             "Deetails".to_string(),
-            vec![
-                TextRange {
-                    start_char: 27,
-                    end_char: 35,
-                    line: 22,
-                },
-                TextRange {
-                    start_char: 30,
-                    end_char: 38,
-                    line: 49,
-                },
-            ],
+            vec![TextRange {
+                start_char: 27,
+                end_char: 35,
+                line: 22,
+            }],
         ),
         WordLocation::new(
             "querry".to_string(),
@@ -188,63 +149,27 @@ $userDetails = $userr->getUserDeetails();
         ),
         WordLocation::new(
             "amountt".to_string(),
-            vec![
-                TextRange {
-                    start_char: 26,
-                    end_char: 33,
-                    line: 34,
-                },
-                TextRange {
-                    start_char: 48,
-                    end_char: 55,
-                    line: 39,
-                },
-            ],
+            vec![TextRange {
+                start_char: 26,
+                end_char: 33,
+                line: 34,
+            }],
         ),
         WordLocation::new(
             "symboll".to_string(),
-            vec![
-                TextRange {
-                    start_char: 5,
-                    end_char: 12,
-                    line: 35,
-                },
-                TextRange {
-                    start_char: 23,
-                    end_char: 30,
-                    line: 39,
-                },
-            ],
+            vec![TextRange {
+                start_char: 5,
+                end_char: 12,
+                line: 35,
+            }],
         ),
         WordLocation::new(
             "formattted".to_string(),
-            vec![
-                TextRange {
-                    start_char: 9,
-                    end_char: 19,
-                    line: 39,
-                },
-                TextRange {
-                    start_char: 12,
-                    end_char: 22,
-                    line: 44,
-                },
-            ],
-        ),
-        WordLocation::new(
-            "Excepton".to_string(),
-            vec![
-                TextRange {
-                    start_char: 23,
-                    end_char: 31,
-                    line: 26,
-                },
-                TextRange {
-                    start_char: 13,
-                    end_char: 21,
-                    line: 40,
-                },
-            ],
+            vec![TextRange {
+                start_char: 9,
+                end_char: 19,
+                line: 39,
+            }],
         ),
         WordLocation::new(
             "errr".to_string(),
@@ -256,30 +181,16 @@ $userDetails = $userr->getUserDeetails();
         ),
         WordLocation::new(
             "userr".to_string(),
-            vec![
-                TextRange {
-                    start_char: 1,
-                    end_char: 6,
-                    line: 48,
-                },
-                TextRange {
-                    start_char: 16,
-                    end_char: 21,
-                    line: 49,
-                },
-            ],
-        ),
-        WordLocation::new(
-            "dbb".to_string(),
             vec![TextRange {
-                start_char: 32,
-                end_char: 35,
+                start_char: 1,
+                end_char: 6,
                 line: 48,
             }],
         ),
     ];
 
     let not_expected = [
+        "Excepton",
         "php",
         "namespace",
         "class",
