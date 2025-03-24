@@ -9,4 +9,4 @@
 (name) @identifier
 
 ; Variable names - simplified with no nested structure
-(variable_name) @identifier
+; (variable_name) @identifier

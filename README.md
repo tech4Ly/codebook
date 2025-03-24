@@ -55,6 +55,7 @@ Codebook is being developed, but the Zed extension is now live!
 
 ✅ = Good to go
 ⚠️ = Supported, but needs more testing
+❌ = Work has started, but there are issues
 
 If Codebook is not marking issues you think it should, please file a GitHub issue!
 
