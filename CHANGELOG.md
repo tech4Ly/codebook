@@ -1,5 +1,6 @@
-[Unreleased]
+[0.2.5]
 
+- Add Russian dictionary (ru)
 - Fairly get suggestions from all active dictionaries.
 - Add PHP support.
 - Fix codebook.toml not being created in new projects on "Add to dictionary".
