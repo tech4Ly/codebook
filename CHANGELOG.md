@@ -1,3 +1,7 @@
+[0.2.6]
+
+- Better error handling for suggestions
+
 [0.2.5]
 
 - Add Russian dictionary (ru)
