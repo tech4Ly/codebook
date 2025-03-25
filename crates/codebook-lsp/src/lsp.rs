@@ -161,9 +161,18 @@ impl LanguageServer for Backend {
             }
             let cb = self.codebook.clone();
             let inner_word = word.clone();
-            let suggestions = task::spawn_blocking(move || cb.get_suggestions(&inner_word))
-                .await
-                .unwrap();
+            let suggestions = task::spawn_blocking(move || cb.get_suggestions(&inner_word)).await;
+
+            let suggestions = match suggestions {
+                Ok(suggestions) => suggestions,
+                Err(e) => {
+                    error!(
+                        "Error getting suggestions for word '{}' in file '{:?}'\n Error: {}",
+                        word, doc.uri, e
+                    );
+                    return Ok(None);
+                }
+            };
 
             if suggestions.is_none() {
                 return Ok(None);
@@ -351,7 +360,7 @@ impl Backend {
             Ok(results) => results,
             Err(err) => {
                 error!(
-                    "Spell-checking failed for file: {:?} \n Error: {}",
+                    "Spell-checking failed for file '{:?}' \n Error: {}",
                     file_path, err
                 );
                 return;
