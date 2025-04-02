@@ -1,3 +1,8 @@
+[0.2.7]
+
+- Add German dictionaries (`de`, `de_at`, and `de_ch`)
+- Add support for R
+
 [0.2.6]
 
 - Better error handling for suggestions
