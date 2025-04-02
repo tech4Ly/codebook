@@ -196,7 +196,7 @@ Add your language to `codebook/crates/codebook/src/queries.rs`:
 
 ### 4. Add the Tree-sitter Grammar
 
-Make sure the appropriate Tree-sitter grammar is added as a dependency in `Cargo.toml` and update the `language()` function to return the correct language parser.
+Make sure the appropriate Tree-sitter grammar is added as a dependency in `Cargo.toml` and update the `language()` function in `queries.rs` to return the correct language parser.
 
 ### 5. Test Your Implementation
 
@@ -205,7 +205,9 @@ Run the tests to ensure your query is valid:
 cargo test -p codebook queries::tests::test_all_queries_are_valid
 ```
 
-You can also test with real code files to verify that Codebook correctly identifies spelling issues in your language.
+Additional language tests should go in `codebook/tests`. There are many example tests to copy.
+
+You can also test with real code files to verify that Codebook correctly identifies spelling issues in your language. Example files should go in `examples/` and contain at least one spelling error to pass integration tests.
 
 ### Tips for Writing Effective Queries
 
@@ -227,7 +229,7 @@ If you've successfully added support for a new language, please consider contrib
 
 ## Running Tests
 
-Run test with `make test` after cloning.
+Run test with `make test` after cloning. Integration tests are also available with `make integration_test`, but requires BunJS to run.
 
 ## Acknowledgments
 - Harper: https://writewithharper.com/
