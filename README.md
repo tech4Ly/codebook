@@ -30,8 +30,12 @@ Codebook is available for the Zed editor. To install, go to the Extension tab in
 Codebook can also be enabled for the [Helix
 editor](https://helix-editor.com/) by adding the LSP to the
 [language.toml](https://docs.helix-editor.com/languages.html) configuration
-file. Ensure that `codebook-lsp` is installed into your `$PATH` and add into
-this file:
+file.
+
+First, get the latest release from [Releases](https://github.com/blopker/codebook/releases) for your architecture.
+
+Then, ensure that `codebook-lsp` is installed into your `$PATH` and add into
+the Helix config file:
 
 ```toml
 [language-server.codebook]
@@ -64,7 +68,7 @@ To see the motivations behind Codebook, read [this blog post](https://blopker.co
 
 ## Status
 
-Codebook is being developed, but the Zed extension is now live!
+Codebook is in active development. As better dictionaries are added, words that were previously marked as misspelled (or spelled correctly), might change over time to improve correctness.
 
 ### Supported Programming Languages
 
