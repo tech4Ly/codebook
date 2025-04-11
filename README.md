@@ -17,11 +17,42 @@
 
 No setup needed. Code book will automatically detect the language you are editing and mark issues for you. Note, Codebook will only mark issues for words that you control, where they are initially defined.
 
-## Install
+## Integrations
 
-Codebook is currently only available for the Zed editor. To install, go to the Extension tab in Zed and look for "Codebook".
+### Zed
+
+Codebook is available for the Zed editor. To install, go to the Extension tab in Zed and look for "Codebook".
 
 **Note**: The version that Zed displays in the extension menus is for the [Zed Extension](https://github.com/blopker/codebook-zed), and not the LSP version (this repo). The extension will automatically update the LSP. If that updater is broken for some reason, try uninstalling the extension and reinstalling.
+
+### Helix
+
+Codebook can also be enabled for the [Helix
+editor](https://helix-editor.com/) by adding the LSP to the
+[language.toml](https://docs.helix-editor.com/languages.html) configuration
+file. Ensure that `codebook-lsp` is installed into your `$PATH` and add into
+this file:
+
+```toml
+[language-server.codebook]
+command = "codebook-lsp"
+args = ["serve"]
+
+# Example use in markdown:
+[[language]]
+name = "markdown"
+language-servers = ["codebook"]
+```
+
+This can be verified with:
+
+```shell
+hx --health markdown
+```
+
+Suggestions will appear in files opened, and
+[space-mode](https://docs.helix-editor.com/keymap.html#space-mode) `a` key
+binding can be used to accept suggestions.
 
 ## About
 
