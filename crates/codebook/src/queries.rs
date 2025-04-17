@@ -193,7 +193,7 @@ pub fn get_language_setting(language_type: LanguageType) -> Option<&'static Lang
 }
 
 pub fn get_language_name_from_filename(filename: &str) -> LanguageType {
-    let extension = filename.split('.').last().unwrap();
+    let extension = filename.split('.').next_back().unwrap();
     for setting in LANGUAGE_SETTINGS {
         for ext in setting.extensions {
             if ext == &extension {
