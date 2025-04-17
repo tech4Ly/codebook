@@ -56,3 +56,11 @@ downloader = { path = "crates/downloader" }
 
 [profile.release]
 lto = "thin"
+
+[profile.fast-release]
+inherits = "release"
+opt-level = 0
+lto = false
+panic = 'unwind'
+incremental = true
+codegen-units = 256

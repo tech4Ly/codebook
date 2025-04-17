@@ -154,6 +154,10 @@ impl LanguageServer for Backend {
         };
 
         for diag in params.context.diagnostics {
+            // Only process our own diagnostics
+            if diag.source.as_deref() != Some(SOURCE_NAME) {
+                continue;
+            }
             let line = doc
                 .text
                 .lines()
@@ -178,12 +182,12 @@ impl LanguageServer for Backend {
                         doc.uri.path(),
                         e
                     );
-                    return Ok(None);
+                    continue;
                 }
             };
 
             if suggestions.is_none() {
-                return Ok(None);
+                continue;
             }
 
             suggestions.unwrap().iter().for_each(|suggestion| {
@@ -222,8 +226,10 @@ impl LanguageServer for Backend {
                 data: None,
             }));
         }
-
-        Ok(Some(actions))
+        match actions.is_empty() {
+            true => Ok(None),
+            false => Ok(Some(actions)),
+        }
     }
 
     async fn execute_command(&self, params: ExecuteCommandParams) -> RpcResult<Option<Value>> {
@@ -335,7 +341,7 @@ impl Backend {
     }
 
     fn make_suggestion(&self, suggestion: &str, range: &Range, uri: &Url) -> CodeAction {
-        let title = format!("Replace with {}", suggestion);
+        let title = format!("Replace with '{}'", suggestion);
         let mut map = HashMap::new();
         map.insert(
             uri.clone(),

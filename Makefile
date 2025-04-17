@@ -15,7 +15,8 @@ integration_test: build
 	cd integration_tests && bun test
 
 # Build and install dev version into Zed's extension directory for testing
-install_ext: build-release
+install_ext:
+	cd crates/codebook-lsp && cargo build --profile=fast-release
 	cp -f target/release/codebook-lsp "${HOME}/Library/Application Support/Zed/extensions/work/codebook/"
 
 uninstall_ext:
