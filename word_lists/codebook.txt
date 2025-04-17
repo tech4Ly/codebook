@@ -3,6 +3,7 @@ acl
 backends
 backticks
 cdn
+codebook
 cors
 csrf
 darwin
