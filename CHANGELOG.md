@@ -1,7 +1,8 @@
-[Unreleased]
+[0.2.9]
 
 - Actually add Italian (`it`) dictionary, oops.
 - Faster CI for Windows
+- Don't strip binaries
 
 [0.2.8]
 
