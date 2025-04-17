@@ -1,13 +1,15 @@
 [Unreleased]
 
+- Add Haskell support
+- Add Italian (`it`) dictionary
+- Add French (`fr`) dictionary
 - Don't show suggestions for diagnostics that aren't from Codebook
 - Fix duplicate suggestions
 - Add "Add to global dictionary action"
 - Don't write default settings to config files
-- Add Italian (`it`) dictionary
-- Add Haskell support
 - More robust download logic
 - Add LTO compile flag to make Codebook even faster
+- Remove GLIBC builds (use musl!)
 
 [0.2.7]
 
