@@ -1,4 +1,4 @@
-[Unreleased]
+[0.2.8]
 
 - Add Haskell support
 - Add Italian (`it`) dictionary
@@ -10,6 +10,7 @@
 - More robust download logic
 - Add LTO compile flag to make Codebook even faster
 - Remove GLIBC builds (use musl!)
+- Add logging and make it configurable
 
 [0.2.7]
 

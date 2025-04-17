@@ -25,6 +25,18 @@ Codebook is available for the Zed editor. To install, go to the Extension tab in
 
 **Note**: The version that Zed displays in the extension menus is for the [Zed Extension](https://github.com/blopker/codebook-zed), and not the LSP version (this repo). The extension will automatically update the LSP. If that updater is broken for some reason, try uninstalling the extension and reinstalling.
 
+To enable DEBUG logs, add this to your settings.json:
+
+```json
+"lsp": {
+  "codebook": {
+    "initialization_options": {
+      "logLevel": "debug"
+    }
+  }
+},
+```
+
 ### Helix
 
 Codebook can also be enabled for the [Helix
