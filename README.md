@@ -17,7 +17,7 @@
 
 No setup needed. Code book will automatically detect the language you are editing and mark issues for you. Note, Codebook will only mark issues for words that you control, where they are initially defined.
 
-Please give us a ⭐ if you find Codebook useful!
+Please gift us a ⭐ if you find Codebook useful!
 
 ## Integrations
 
