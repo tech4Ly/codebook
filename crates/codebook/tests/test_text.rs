@@ -23,9 +23,9 @@ fn expect_spelling(text: &str, expected: &Vec<&str>) {
 fn test_text_simple() {
     let sample_text = r#"
         I'm bvd at splellin Wolrd wolrd
-        hello regular regu
+        hello caféx regular regu
     "#;
-    let expected = vec!["Wolrd", "bvd", "regu", "splellin", "wolrd"];
+    let expected = vec!["Wolrd", "bvd", "caféx", "regu", "splellin", "wolrd"];
     expect_spelling(sample_text, &expected);
 }
 
