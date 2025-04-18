@@ -1,7 +1,9 @@
+dictionaries = [
+    "en_us",
+]
 words = [
     "aff",
     "allowlist",
-    "codebook",
     "cspell",
     "declarator",
     "dic",

@@ -14,7 +14,7 @@
 - Add "Add to global dictionary action"
 - Don't write default settings to config files
 - More robust download logic
-- Add LTO compile flag to make Codebook even faster
+- Add LTO compile flag to make Codebook even faster 🚀
 - Remove GLIBC builds (use musl!)
 - Add logging and make it configurable
 
@@ -43,7 +43,7 @@
 [0.2.3]
 
 - Handle unicode in a much better way
-- Add support for Ruby (Thanks @vitallium!)
+- Add support for Ruby
 
 [0.2.2]
 
