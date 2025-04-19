@@ -8,7 +8,7 @@ let languageClient: LSPTestClient;
 
 beforeAll(async () => {
   // Create client
-  languageClient = new LSPTestClient("../target/debug/codebook-lsp");
+  languageClient = new LSPTestClient("../target/release/codebook-lsp");
 
   // Start client
   await languageClient.start();
