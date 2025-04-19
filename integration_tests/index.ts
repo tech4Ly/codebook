@@ -1,7 +1,7 @@
 import { LSPTestClient } from "./client";
 
 async function main() {
-  const client = new LSPTestClient("../target/debug/codebook-lsp");
+  const client = new LSPTestClient("../target/release/codebook-lsp");
 
   try {
     await client.start();
