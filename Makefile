@@ -5,10 +5,7 @@ export RUST_LOG=debug
 test:
 	cargo test --lib --bins --tests -- --test-threads=20
 
-build: generate_word_list
-	cd crates/codebook-lsp && cargo build
-
-build-release: generate_word_list
+build:
 	cd crates/codebook-lsp && cargo build --release
 
 integration_test: build
