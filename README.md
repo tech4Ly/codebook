@@ -2,7 +2,7 @@
 <div align="center">
   <a href="https://github.com/blopker/codebook"> <img
   src="assets/codebook-nt.webp" alt="Logo" width="200" > </a> <h3
-  align="center">CODEBOOK</h3> <p align="center"> An unholy spellchecker for
+  align="center">CODEBOOK</h3> <p align="center"> An unholy spell checker for
   code. <br /> <br /> <!-- <a
   href="https://github.com/blopker/codebook/releases/latest/">Download</a> -->
   <br /> <br /> <a href="https://github.com/blopker/codebook/issues">Report
@@ -23,7 +23,7 @@ Please gift us a ⭐ if you find Codebook useful!
 
 ### Zed
 
-Codebook is the most popular spellchecker the Zed editor! To install, go to the Extension tab in Zed and look for "Codebook".
+Codebook is the most popular spell checker the Zed editor! To install, go to the Extension tab in Zed and look for "Codebook".
 
 **Note**: The version that Zed displays in the extension menus is for the [Zed Extension](https://github.com/blopker/codebook-zed), and not the LSP version (this repo). The extension will automatically update the LSP. If that updater is broken for some reason, try uninstalling the extension and reinstalling.
 
@@ -74,9 +74,9 @@ binding can be used to accept suggestions.
 
 ## About
 
-Codebook is a spellchecker for code. It binds together the venerable Tree Sitter and the fast spell checker [Spellbook](https://github.com/helix-editor/spellbook). Included is a Language Server for use in (theoretically) any editor. Everything is done in Rust to keep response times snappy and memory usage _low_.
+Codebook is a spell checker for code. It binds together the venerable Tree Sitter and the fast spell checker [Spellbook](https://github.com/helix-editor/spellbook). Included is a Language Server for use in (theoretically) any editor. Everything is done in Rust to keep response times snappy and memory usage _low_.
 
-However, if you are looking for a traditional spellchecker for _prose_, Codebook may not be what you are looking for. For example, capitalization issues are handled loosely and grammar checking is out of scope.
+However, if you are looking for a traditional spell checker for _prose_, Codebook may not be what you are looking for. For example, capitalization issues are handled loosely and grammar checking is out of scope.
 
 To see the motivations behind Codebook, read [this blog post](https://blopker.com/writing/09-survey-of-the-current-state-of-code-spell-checking/).
 
@@ -175,11 +175,11 @@ use_global = true
 
 ## Goals
 
-Spellchecking is complicated and opinions about how it should be done, especially with code, differs. This section is about the trade offs that steer decisions.
+Spell checking is complicated and opinions about how it should be done, especially with code, differs. This section is about the trade offs that steer decisions.
 
 ### Privacy
 
-No remote calls for spellchecking or analytics. Once dictionaries are cached, Codebook needs to be usable offline. Codebook will never send the contents of files to a remote server.
+No remote calls for spell checking or analytics. Once dictionaries are cached, Codebook needs to be usable offline. Codebook will never send the contents of files to a remote server.
 
 ### Don't be annoying
 
@@ -187,7 +187,7 @@ Codebook should have high signal and low noise. It should only highlight words t
 
 ### Efficient
 
-All features will be weighed against their impact on CPU and memory. Codebook should be fast enough to spellcheck on every keystroke on even low-end hardware.
+All features will be weighed against their impact on CPU and memory. Codebook should be fast enough to spell check on every keystroke on even low-end hardware.
 
 ## Features
 
