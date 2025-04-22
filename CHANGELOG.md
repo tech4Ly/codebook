@@ -1,3 +1,7 @@
+[0.2.10]
+
+- Fix #67: Update Spellbook
+
 [0.2.9]
 
 - Actually add Italian (`it`) dictionary, oops.
