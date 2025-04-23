@@ -457,9 +457,13 @@ impl CodebookConfig {
         let content = toml::to_string_pretty(&*self.global_settings.read().unwrap())
             .map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
         info!(
-            "Saving project configuration to {}",
+            "Saving global configuration to {}",
             global_config_path.display()
         );
+        // Create parent directories if they don't exist
+        if let Some(parent) = global_config_path.parent() {
+            fs::create_dir_all(parent)?;
+        }
         fs::write(global_config_path, content)
     }
 
@@ -609,6 +613,32 @@ mod tests {
         }
 
         Ok(config)
+    }
+
+    #[test]
+    fn test_save_global_creates_directories() -> Result<(), io::Error> {
+        let temp_dir = TempDir::new().unwrap();
+        let global_dir = temp_dir.path().join("deep").join("nested").join("dir");
+        let config_path = global_dir.join("codebook.toml");
+
+        // Create config with a path that doesn't exist yet
+        let config = CodebookConfig {
+            global_config_path: Some(config_path.clone()),
+            global_settings: RwLock::new(Some(ConfigSettings::default())),
+            ..Default::default()
+        };
+
+        // Directory doesn't exist yet
+        assert!(!global_dir.exists());
+
+        // Save should create directories
+        config.save_global()?;
+
+        // Now directory and file should exist
+        assert!(global_dir.exists());
+        assert!(config_path.exists());
+
+        Ok(())
     }
 
     #[test]
