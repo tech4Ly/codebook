@@ -1,3 +1,8 @@
+[0.2.11]
+
+- Add Swedish dictionary (`sv`)
+- Fix #69 (nice) directory structure not being created for global config
+
 [0.2.10]
 
 - Fix #67: Update Spellbook
