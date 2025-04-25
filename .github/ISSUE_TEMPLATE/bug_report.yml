@@ -12,7 +12,7 @@ body:
     id: description
     attributes:
       label: Issue Description
-      description: A clear and concise description of the issue you're experiencing
+      description: A clear and concise description of the issue you're experiencing.
       placeholder: When I try to spell check my Python file, Codebook doesn't recognize...
     validations:
       required: true
@@ -29,7 +29,7 @@ body:
         - Linux (Fedora/RHEL)
         - Linux (Arch)
         - Other Linux
-        - Other (please specify in description)
+        - Other (please specify in description).
     validations:
       required: true
 
@@ -43,7 +43,7 @@ body:
         - Helix
         - VSCode
         - Neovim
-        - Other (please specify in description)
+        - Other (please specify in description).
     validations:
       required: true
 
@@ -51,16 +51,16 @@ body:
     id: version
     attributes:
       label: Codebook Version
-      description: What version of Codebook are you running? (run `codebook-lsp --version` if installed manually)
+      description: What version of Codebook are you running? (run `codebook-lsp --version` if installed manually).
       placeholder: 0.4.2
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: configuration
     attributes:
       label: Configuration
-      description: Please share your codebook configuration (codebook.toml or .codebook.toml)
+      description: Please share your codebook configuration (codebook.toml or .codebook.toml).
       render: toml
     validations:
       required: false
@@ -69,7 +69,7 @@ body:
     id: steps
     attributes:
       label: Steps to Reproduce
-      description: Please provide detailed steps to reproduce the issue
+      description: Please provide detailed steps to reproduce the issue.
       placeholder: |
         1. Open file X
         2. Type Y
@@ -97,7 +97,7 @@ body:
     id: code
     attributes:
       label: Code Sample
-      description: If applicable, provide a minimal code sample that demonstrates the issue
+      description: If applicable, provide a minimal code sample that demonstrates the issue.
       render: text
     validations:
       required: false
@@ -106,7 +106,7 @@ body:
     id: logs
     attributes:
       label: Log Output
-      description: If you have DEBUG logs enabled, please include them here
+      description: If you have DEBUG logs enabled, please include them here. See README for how to enable.
       render: shell
     validations:
       required: false
@@ -115,6 +115,6 @@ body:
     id: additional
     attributes:
       label: Additional Context
-      description: Add any other context about the problem here
+      description: Add any other context about the problem here.
     validations:
       required: false
