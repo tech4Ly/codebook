@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[BUG]"
+title: "[BUG] "
 labels: ''
 assignees: ''
 
@@ -24,9 +24,9 @@ assignees: ''
 
 **Steps to Reproduce**
 <!-- Please provide detailed steps to reproduce the issue -->
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 **Expected Behavior**
 <!-- What did you expect to happen? -->
