@@ -12,9 +12,10 @@ fn test_go_location() {
     import (
         "fmt"
     )
-    func mispeledFuncion() string {
+    func mispeledFuncion() (string, string) {
+        bobz := "Bobbbss"
         var alicz = "Alizzz"
-        return alicz
+        return alicz, bobz
     }"#;
     let expected = vec![
         WordLocation::new(
@@ -34,11 +35,27 @@ fn test_go_location() {
             }],
         ),
         WordLocation::new(
+            "bobz".to_string(),
+            vec![TextRange {
+                start_char: 8,
+                end_char: 12,
+                line: 5,
+            }],
+        ),
+        WordLocation::new(
+            "Bobbbss".to_string(),
+            vec![TextRange {
+                start_char: 17,
+                end_char: 24,
+                line: 5,
+            }],
+        ),
+        WordLocation::new(
             "Alizzz".to_string(),
             vec![TextRange {
                 start_char: 21,
                 end_char: 27,
-                line: 5,
+                line: 6,
             }],
         ),
         WordLocation::new(
@@ -46,7 +63,7 @@ fn test_go_location() {
             vec![TextRange {
                 start_char: 12,
                 end_char: 17,
-                line: 5,
+                line: 6,
             }],
         ),
     ];

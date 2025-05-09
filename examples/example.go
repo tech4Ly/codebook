@@ -11,6 +11,8 @@ func main() {
 	fmt.Println("Hello, " + alicz)
 	var rsvp = "RSVP"
 	fmt.Println("Hello, " + rsvp)
+	cokbookkk := "test valie"
+	fmt.Println("Hello, " + cokbookkk)
 }
 
 func mispeledFuncion() string {

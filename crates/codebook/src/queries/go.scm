@@ -5,3 +5,5 @@
 (expression_list
     (interpreted_string_literal) @string)
 (var_spec (identifier) @identifier)
+(short_var_declaration
+    (expression_list (identifier) @identifier))
