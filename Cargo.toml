@@ -1,6 +1,17 @@
 [workspace]
 members = ["crates/codebook", "crates/codebook-config", "crates/codebook-lsp", "crates/downloader", "crates/dictionary-builder"]
+default-members = ["crates/codebook-lsp"]
 resolver = "2"
+
+[workspace.package]
+version = "0.2.13"
+authors = ["Codebook Contributors"]
+description = "A code-aware spell checker for developers"
+repository = "https://github.com/blopker/codebook"
+homepage = "https://github.com/blopker/codebook"
+documentation = "https://github.com/blopker/codebook"
+license = "MIT"
+edition = "2024"
 
 [workspace.dependencies]
 anyhow = "1.0.71"
@@ -48,9 +59,9 @@ unicode-segmentation = "1.12.0"
 url = "2.4.0"
 walkdir = "2.3.3"
 
-codebook = { path = "crates/codebook" }
-codebook_config = { path = "crates/codebook-config" }
-downloader = { path = "crates/downloader" }
+codebook = { path = "crates/codebook", version = "0.1.0" }
+codebook_config = { path = "crates/codebook-config", version = "0.1.0" }
+downloader = { path = "crates/downloader", version = "0.1.0" }
 
 
 [profile.release]
@@ -63,3 +74,10 @@ lto = false
 panic = 'unwind'
 incremental = true
 codegen-units = 256
+
+# Configuration related to crates.io
+[workspace.metadata.publish]
+# Specify which crates should be published to crates.io
+publish = [
+  "crates/codebook-lsp"
+]

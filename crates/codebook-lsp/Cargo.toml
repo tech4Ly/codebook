@@ -2,6 +2,21 @@
 name = "codebook-lsp"
 version = "0.2.13"
 edition = "2024"
+description = "A code-aware spell checker with language server implementation, installable via cargo install"
+authors = ["Codebook Contributors"]
+license = "MIT"
+repository = "https://github.com/blopker/codebook"
+homepage = "https://github.com/blopker/codebook"
+documentation = "https://github.com/blopker/codebook"
+readme = "../../README.md"
+keywords = ["spell-checker", "lsp", "language-server", "code", "spelling"]
+categories = ["development-tools", "text-processing", "command-line-utilities"]
+publish = true
+
+# Ensure binary is installable with cargo install
+[[bin]]
+name = "codebook-lsp"
+path = "src/main.rs"
 
 [dependencies]
 streaming-iterator.workspace = true
@@ -15,8 +30,8 @@ log.workspace = true
 clap.workspace = true
 lru.workspace = true
 
-codebook.workspace = true
-codebook_config.workspace = true
+codebook = { workspace = true, path = "../codebook" }
+codebook_config = { workspace = true, path = "../codebook-config" }
 
 [build-dependencies]
 cc = "1.0"

@@ -159,10 +159,23 @@ The binary release is available on the AUR under the [codebook-bin](aur.archlinu
 paru -S codebook-bin
 ```
 
+### Cargo Install
+
+You can also install the Codebook LSP using Cargo:
+
+```sh
+cargo install codebook-lsp
+```
+
+To install directly from the GitHub repository:
+
+```sh
+cargo install --git https://github.com/blopker/codebook codebook-lsp
+```
+
 ### From Source
 
 You may also build `codebook` from source by cloning the repository and running `make build`.
-
 
 ## Configuration
 
