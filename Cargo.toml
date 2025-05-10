@@ -1,6 +1,5 @@
 [workspace]
 members = ["crates/codebook", "crates/codebook-config", "crates/codebook-lsp", "crates/downloader", "crates/dictionary-builder"]
-default-members = ["crates/codebook-lsp"]
 resolver = "2"
 
 [workspace.package]

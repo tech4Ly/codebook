@@ -36,10 +36,10 @@ generate-manifest:
 
 publish_crates:
 	# 1. First, publish the codebook-config crate
-	cargo publish -p codebook_config
+	-cargo publish -p codebook_config
 	# 2. Then publish the renamed downloader crate
-	cargo publish -p codebook_downloader
+	-cargo publish -p codebook_downloader
 	# 3. Then publish the main codebook library
-	cargo publish -p codebook
+	-cargo publish -p codebook
 	# 4. Finally, publish the codebook-lsp binary
-	cargo publish -p codebook-lsp
+	-cargo publish -p codebook-lsp

@@ -18,6 +18,10 @@ publish = true
 name = "codebook-lsp"
 path = "src/main.rs"
 
+[lib]
+name = "codebook_lsp"
+path = "src/lib.rs"
+
 [dependencies]
 streaming-iterator.workspace = true
 tower-lsp.workspace = true
@@ -30,8 +34,8 @@ log.workspace = true
 clap.workspace = true
 lru.workspace = true
 
-codebook = { workspace = true, path = "../codebook" }
-codebook_config = { workspace = true, path = "../codebook-config" }
+codebook = { workspace = true }
+codebook_config = { workspace = true }
 
 [build-dependencies]
 cc = "1.0"
