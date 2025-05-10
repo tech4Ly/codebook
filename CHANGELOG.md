@@ -1,3 +1,8 @@
+[0.2.13]
+
+- Switch out OpenSSL for rustls
+- Improve Go query to support short hand variables
+
 [0.2.12]
 
 - Fix #72: Update Spellbook
