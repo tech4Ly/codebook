@@ -510,7 +510,7 @@ name = "codebook"
 version = "0.1.0"
 dependencies = [
  "codebook_config",
- "downloader",
+ "codebook_downloader",
  "env_logger",
  "fs2",
  "lazy_static",
@@ -573,6 +573,22 @@ dependencies = [
  "serde",
  "tempfile",
  "toml",
+]
+
+[[package]]
+name = "codebook_downloader"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "env_logger",
+ "httpmock",
+ "log",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
 ]
 
 [[package]]
@@ -722,22 +738,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.101",
-]
-
-[[package]]
-name = "downloader"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "chrono",
- "env_logger",
- "httpmock",
- "log",
- "reqwest",
- "serde",
- "serde_json",
- "sha2",
- "tempfile",
 ]
 
 [[package]]

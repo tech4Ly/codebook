@@ -9,7 +9,7 @@ use super::{
     repo::{DictionaryRepo, HunspellRepo, TextRepo, get_repo},
 };
 use dictionary::{Dictionary, HunspellDictionary};
-use downloader::Downloader;
+use codebook_downloader::Downloader;
 use log::{debug, error};
 
 pub struct DictionaryManager {

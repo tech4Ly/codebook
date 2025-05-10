@@ -49,7 +49,7 @@ lru.workspace = true
 unicode-segmentation.workspace = true
 
 codebook_config.workspace = true
-downloader.workspace = true
+codebook_downloader.workspace = true
 
 
 [dev-dependencies]

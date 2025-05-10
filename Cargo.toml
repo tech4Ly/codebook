@@ -61,7 +61,7 @@ walkdir = "2.3.3"
 
 codebook = { path = "crates/codebook", version = "0.1.0" }
 codebook_config = { path = "crates/codebook-config", version = "0.1.0" }
-downloader = { path = "crates/downloader", version = "0.1.0" }
+codebook_downloader = { path = "crates/downloader", version = "0.1.0" }
 
 
 [profile.release]

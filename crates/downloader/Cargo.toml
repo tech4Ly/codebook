@@ -1,5 +1,5 @@
 [package]
-name = "downloader"
+name = "codebook_downloader"
 version = "0.1.0"
 edition = "2024"
 description = "Dictionary downloading utility for the Codebook spell checker"
