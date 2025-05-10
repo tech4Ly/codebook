@@ -2,6 +2,15 @@
 name = "downloader"
 version = "0.1.0"
 edition = "2024"
+description = "Dictionary downloading utility for the Codebook spell checker"
+authors = ["Codebook Contributors"]
+license = "MIT"
+repository = "https://github.com/blopker/codebook"
+homepage = "https://github.com/blopker/codebook"
+documentation = "https://github.com/blopker/codebook"
+readme = "../../README.md"
+keywords = ["download", "dictionary", "spell-checker"]
+categories = ["development-tools", "text-processing"]
 
 [dev-dependencies]
 httpmock = "0.7.0"

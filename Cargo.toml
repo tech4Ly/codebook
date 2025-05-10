@@ -79,5 +79,8 @@ codegen-units = 256
 [workspace.metadata.publish]
 # Specify which crates should be published to crates.io
 publish = [
+  "crates/codebook",
+  "crates/codebook-config",
+  "crates/downloader",
   "crates/codebook-lsp"
 ]

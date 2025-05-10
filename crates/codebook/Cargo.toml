@@ -2,7 +2,7 @@
 name = "codebook"
 version = "0.1.0"
 edition = "2024"
-description = "A code-aware autocomplete and language tool (internal library, not for direct installation)"
+description = "A code-aware spell checker library (dependency for codebook-lsp)"
 authors = ["Codebook Contributors"]
 license = "MIT"
 repository = "https://github.com/blopker/codebook"
@@ -11,8 +11,7 @@ documentation = "https://github.com/blopker/codebook"
 readme = "../../README.md"
 keywords = ["code", "autocomplete", "language", "lsp"]
 categories = ["development-tools", "text-processing"]
-# This is only used as a dependency for codebook-lsp, not for direct installation
-publish = false
+# This is primarily used as a dependency for codebook-lsp
 
 # Binary for internal testing only
 [[bin]]
