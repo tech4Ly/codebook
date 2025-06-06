@@ -54,6 +54,7 @@ allow
 allowed
 allows
 alpha
+alpinejs
 already
 also
 alt
@@ -500,6 +501,7 @@ custom
 cx
 dac
 daemon
+daisyui
 danger
 dao
 dark
@@ -542,6 +544,10 @@ defid
 define
 defined
 defineproperty
+defmacro
+defmodule
+defp
+defstruct
 deg
 del
 delay
@@ -602,6 +608,7 @@ div
 divider
 django
 dl
+dngettext
 do
 doc
 docker
@@ -659,6 +666,7 @@ ebebeb
 ebml
 ec
 eclipse
+ecto
 ecx
 edit
 editor
@@ -723,6 +731,7 @@ errorisnil
 errors
 errs
 errunexpectedeof
+esbuild
 etag
 etc
 etcd
@@ -982,6 +991,7 @@ header
 headers
 heading
 heapsizeof
+heex
 height
 hello
 help
@@ -989,6 +999,7 @@ helper
 helpers
 helvetica
 here
+heroicons
 hi
 hibernate
 hidden
@@ -1185,6 +1196,7 @@ keyerror
 keyevent
 keyframes
 keys
+keyup
 keyword
 khtml
 kid
@@ -1383,6 +1395,7 @@ models
 modifier
 modify
 module
+moduledoc
 modules
 moment
 monospace
@@ -1490,6 +1503,8 @@ nullpointerexception
 num
 number
 numpy
+oauth
+oban
 obj
 object
 objectmeta
@@ -1629,6 +1644,7 @@ phantomdata
 phaser
 phone
 php
+phx
 pi
 pic
 picker
@@ -1785,6 +1801,7 @@ rel
 related
 relative
 release
+reloader
 rem
 remove
 removed
@@ -2154,6 +2171,7 @@ tabs
 tag
 tags
 tail
+tailwindcss
 take
 target
 task
