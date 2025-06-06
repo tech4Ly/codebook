@@ -35,6 +35,10 @@ release-lsp:
 clear_cache: build
 	target/debug/codebook-lsp clean
 
+benchmark:
+	cd crates/codebook && cargo build --release
+	./target/release/codebook --benchmark
+
 build-dictionaries:
 	cargo run -p dictionary-builder -- build
 
