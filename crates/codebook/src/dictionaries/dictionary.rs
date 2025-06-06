@@ -63,9 +63,11 @@ impl HunspellDictionary {
 
 impl Dictionary for HunspellDictionary {
     fn check(&self, word: &str) -> bool {
-        // Check cache first
-        if let Some(result) = self.check_cache.write().unwrap().get(word) {
-            return *result;
+        {
+            let mut cache = self.check_cache.write().unwrap();
+            if let Some(&result) = cache.get(word) {
+                return result;
+            }
         }
 
         // If not in cache, perform the check
@@ -87,21 +89,22 @@ impl Dictionary for HunspellDictionary {
     }
 
     fn suggest(&self, word: &str) -> Vec<String> {
-        // debug!("Checking Cache: {:?}", word);
-        // First try to get from cache with write lock since get() needs to modify LRU order
-        if let Some(suggestions) = self.suggestion_cache.write().unwrap().get_mut(word) {
-            // debug!("Cache hit for {:?}", word);
-            return suggestions.clone();
+        {
+            let mut cache = self.suggestion_cache.write().unwrap();
+            if let Some(suggestions) = cache.get(word) {
+                return suggestions.clone();
+            }
         }
 
         // If not in cache, generate suggestions
         let mut suggestions = Vec::new();
         self.dictionary.suggest(word, &mut suggestions);
         suggestions.truncate(5);
+
         if !suggestions.is_empty() {
             let word_case = self.get_word_case(word);
-            // mutate suggestions in place to match case
 
+            // Apply case transformations
             for suggestion in &mut suggestions {
                 match word_case {
                     WordCase::AllCaps => {
@@ -116,12 +119,16 @@ impl Dictionary for HunspellDictionary {
                     WordCase::Unknown => {}
                 }
             }
+        }
 
+        // Cache the result if non-empty
+        if !suggestions.is_empty() {
             self.suggestion_cache
                 .write()
                 .unwrap()
                 .put(word.to_string(), suggestions.clone());
         }
+
         suggestions
     }
 }

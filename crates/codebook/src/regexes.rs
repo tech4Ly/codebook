@@ -1,10 +1,8 @@
+use lazy_static::lazy_static;
 use regex::Regex;
 
-/// Default regex patterns to skip during spell checking.
-/// These patterns match common technical strings that contain letter sequences
-/// but shouldn't be treated as words for spell checking purposes.
-pub fn get_default_skip_patterns() -> Vec<Regex> {
-    vec![
+lazy_static! {
+    static ref DEFAULT_SKIP_PATTERNS: Vec<Regex> = vec![
         // URLs (http/https)
         Regex::new(r"https?://[^\s]+").expect("Valid URL regex"),
         // Hex colors (#deadbeef, #fff, #123456)
@@ -24,23 +22,19 @@ pub fn get_default_skip_patterns() -> Vec<Regex> {
         Regex::new(r"\b[0-9a-fA-F]{7,40}\b").expect("Valid git hash regex"),
         // Markdown/HTML links
         Regex::new(r"\[([^\]]+)\]\(([^)]+)\)").expect("Valid markdown link regex"),
-    ]
+    ];
+}
+
+/// Default regex patterns to skip during spell checking.
+/// These patterns match common technical strings that contain letter sequences
+/// but shouldn't be treated as words for spell checking purposes.
+pub fn get_default_skip_patterns() -> &'static Vec<Regex> {
+    &DEFAULT_SKIP_PATTERNS
 }
 
 /// Compile user-provided regex patterns from strings
 pub fn compile_user_patterns(patterns: &[String]) -> Result<Vec<Regex>, regex::Error> {
     patterns.iter().map(|pattern| Regex::new(pattern)).collect()
-}
-
-/// Combine default and user patterns into a single vector
-pub fn get_combined_patterns(user_patterns: &[String]) -> Vec<Regex> {
-    let mut patterns = get_default_skip_patterns();
-
-    if let Ok(user_regexes) = compile_user_patterns(user_patterns) {
-        patterns.extend(user_regexes);
-    }
-
-    patterns
 }
 
 #[cfg(test)]

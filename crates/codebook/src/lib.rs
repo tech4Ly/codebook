@@ -5,7 +5,6 @@ pub mod queries;
 pub mod regexes;
 mod splitter;
 
-use regex::Regex;
 use regexes::get_default_skip_patterns;
 use std::sync::Arc;
 
@@ -18,7 +17,6 @@ use parser::WordLocation;
 pub struct Codebook {
     config: Arc<CodebookConfig>,
     manager: DictionaryManager,
-    regex_cache: Vec<Regex>,
 }
 
 // Custom 'codebook' dictionary could be removed later for a more general solution.
@@ -27,12 +25,7 @@ static DEFAULT_DICTIONARIES: &[&str; 3] = &["codebook", "software_terms", "compu
 impl Codebook {
     pub fn new(config: Arc<CodebookConfig>) -> Result<Self, Box<dyn std::error::Error>> {
         let manager = DictionaryManager::new(&config.cache_dir);
-        let regex_cache = get_default_skip_patterns();
-        Ok(Self {
-            config,
-            manager,
-            regex_cache,
-        })
+        Ok(Self { config, manager })
     }
 
     /// Get WordLocations for a block of text.
@@ -51,7 +44,7 @@ impl Codebook {
         // call spell check on each dictionary
         let language = self.resolve_language(language, file_path);
         let dictionaries = self.get_dictionaries(Some(language));
-        let mut regex_patterns = self.regex_cache.clone();
+        let mut regex_patterns = get_default_skip_patterns().clone();
         if let Some(config_patterns) = self.config.get_ignore_patterns() {
             regex_patterns.extend(config_patterns);
         }

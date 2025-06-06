@@ -15,8 +15,6 @@ integration_test: build
 install_ext: generate_word_list
 	cd crates/codebook-lsp && cargo build --profile=fast-release
 	cp -f target/fast-release/codebook-lsp "${HOME}/Library/Application Support/Zed/extensions/work/codebook/"
-	# cd crates/codebook-lsp && cargo build --release
-	# cp -f target/release/codebook-lsp "${HOME}/Library/Application Support/Zed/extensions/work/codebook/"
 
 # Install release version into Zed's extension directory for testing
 install_release_ext: generate_word_list

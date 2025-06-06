@@ -24,9 +24,10 @@ pub fn split(s: &str) -> Vec<SplitRef> {
     let mut word_start_char = 0;
     let mut prev_char_type = None;
 
-    let chars: Vec<(usize, char)> = s.char_indices().collect();
+    let mut char_iter = s.char_indices().peekable();
+    let mut i = 0;
 
-    for (i, &(byte_pos, c)) in chars.iter().enumerate() {
+    while let Some((byte_pos, c)) = char_iter.next() {
         assert!(
             !c.is_whitespace(),
             "There should be no white space in the input: '{}'",
@@ -44,8 +45,8 @@ pub fn split(s: &str) -> Vec<SplitRef> {
 
         let should_split = match prev_char_type {
             Some(CharType::Lower) if char_type == CharType::Upper => true,
-            Some(CharType::Upper) if char_type == CharType::Upper => chars
-                .get(i + 1)
+            Some(CharType::Upper) if char_type == CharType::Upper => char_iter
+                .peek()
                 .map(|(_, next_c)| next_c.is_ascii_lowercase())
                 .unwrap_or(false),
             Some(prev)
@@ -76,16 +77,17 @@ pub fn split(s: &str) -> Vec<SplitRef> {
             char_type,
             CharType::Underscore | CharType::Period | CharType::Colon
         ) {
-            if let Some((next_byte_pos, _)) = chars.get(i + 1) {
+            if let Some((next_byte_pos, _)) = char_iter.peek() {
                 word_start_byte = *next_byte_pos;
                 word_start_char = i + 1;
             } else {
                 word_start_byte = s.len();
-                word_start_char = chars.len();
+                word_start_char = i + 1;
             }
         }
 
         prev_char_type = Some(char_type);
+        i += 1;
     }
 
     // Handle final word
