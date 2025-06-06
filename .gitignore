@@ -4,6 +4,7 @@ examples/big.html
 *.wasm
 profile.json
 flamegraph.svg
+
 node_modules
 .aider*
 .env
