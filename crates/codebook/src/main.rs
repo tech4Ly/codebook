@@ -56,7 +56,7 @@ fn run_benchmark(processor: &Codebook) {
         .build()
         .unwrap();
     // Define sample text for benchmark
-    let sample_text = include_str!("../../../examples/wulf.txt");
+    let sample_text = include_str!("../tests/examples/wulf.txt");
 
     // Number of iterations for benchmark
     let iterations = 100;
