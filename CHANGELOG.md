@@ -1,3 +1,8 @@
+[0.3.1]
+
+- Updated the global word list to include more common programming terms.
+- Many small performance improvements to reduce allocations. On a M1 Mac checking the full Beowulf text went from ~80ms to ~13ms 🚀
+
 [0.3.0]
 
 Breaking changes:
