@@ -410,6 +410,7 @@ To update the Language server:
 
 1. Run `make release-lsp`
 1. Follow instructions
+1. Wait for Actions to finish
 1. Go to GitHub Releases
 1. Un-mark "prerelease" and publish
 1. Run `make publish_crates` to upload to crates.io
