@@ -142,7 +142,7 @@ jobs:
         with:
           pattern: codebook-lsp*
       - name: Make release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@37fd9d0351a2df198244c8ef9f56d02d1f921e20
         with:
           files: codebook-lsp*/*
           prerelease: true

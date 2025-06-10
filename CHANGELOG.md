@@ -1,3 +1,7 @@
+[0.3.2]
+
+- Pin softprops/action-gh-release action since 2.3.0 broke CI
+
 [0.3.1]
 
 - Updated the global word list to include more common programming terms.
