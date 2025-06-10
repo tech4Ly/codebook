@@ -1,3 +1,7 @@
+[0.3.3]
+
+- Fix the cargo release by moving test example files
+
 [0.3.2]
 
 - Pin softprops/action-gh-release action since 2.3.0 broke CI
