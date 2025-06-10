@@ -52,8 +52,7 @@ fn run_benchmark(processor: &Codebook) {
 fn run_benchmark(processor: &Codebook) {
     println!("Running spell_check benchmark...");
     let guard = pprof::ProfilerGuardBuilder::default()
-        .frequency(998)
-        .blocklist(&["libc", "libgcc", "pthread", "vdso"])
+        .frequency(9998)
         .build()
         .unwrap();
     // Define sample text for benchmark
@@ -71,6 +70,7 @@ fn run_benchmark(processor: &Codebook) {
             println!("Iteration {}/{}", i, iterations);
         }
         let _misspelled = processor.spell_check(sample_text, Some(LanguageType::Text), None);
+        assert!(_misspelled.len() == 262);
     }
 
     // Calculate duration
