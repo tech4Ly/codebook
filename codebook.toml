@@ -1,12 +1,11 @@
-dictionaries = [
-    "en_us",
-]
+dictionaries = ["en_us"]
 words = [
     "aff",
     "allowlist",
     "cspell",
     "declarator",
     "dic",
+    "flamegraph",
     "musl",
     "scm",
     "spellbook",
@@ -22,4 +21,4 @@ ignore_paths = [
     "**/*.json",
     ".git/**/*",
 ]
-ignore_patterns = ["\\b[ATCG]+\\b"]
+ignore_patterns = ['\b[ATCG]+\b']

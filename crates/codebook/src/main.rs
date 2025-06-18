@@ -50,42 +50,109 @@ fn run_benchmark(processor: &Codebook) {
 
 #[cfg(not(target_os = "windows"))]
 fn run_benchmark(processor: &Codebook) {
-    println!("Running spell_check benchmark...");
+    const ITERATIONS: usize = 100;
+
+    // Run text benchmark
+    benchmark_text_file(processor, ITERATIONS);
+
+    // Run JavaScript benchmark
+    benchmark_javascript_file(processor, ITERATIONS);
+}
+
+#[cfg(not(target_os = "windows"))]
+fn benchmark_text_file(processor: &Codebook, iterations: usize) {
+    println!("Running text file spell_check benchmark...");
+
     let guard = pprof::ProfilerGuardBuilder::default()
         .frequency(9998)
         .build()
         .unwrap();
-    // Define sample text for benchmark
+
     let sample_text = include_str!("../tests/examples/wulf.txt");
 
-    // Number of iterations for benchmark
-    let iterations = 100;
+    let duration = run_benchmark_iterations(
+        processor,
+        sample_text,
+        LanguageType::Text,
+        iterations,
+        "Text",
+        Some(262), // Expected misspellings for assertion
+    );
 
-    // Start timing
+    print_benchmark_results("Text file", iterations, duration);
+
+    // Generate flamegraph
+    if let Ok(report) = guard.report().build() {
+        let file = File::create("flamegraph_text.svg").unwrap();
+        report.flamegraph(file).unwrap();
+        println!("Text benchmark flamegraph saved to flamegraph_text.svg");
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+fn benchmark_javascript_file(processor: &Codebook, iterations: usize) {
+    println!("\nRunning JavaScript code benchmark...");
+
+    let guard = pprof::ProfilerGuardBuilder::default()
+        .frequency(9998)
+        .build()
+        .unwrap();
+
+    let js_code = include_str!("../tests/examples/example.js");
+
+    let duration = run_benchmark_iterations(
+        processor,
+        js_code,
+        LanguageType::Javascript,
+        iterations,
+        "JavaScript",
+        Some(31),
+    );
+
+    print_benchmark_results("JavaScript file", iterations, duration);
+
+    // Generate flamegraph
+    if let Ok(report) = guard.report().build() {
+        let file = File::create("flamegraph_js.svg").unwrap();
+        report.flamegraph(file).unwrap();
+        println!("JavaScript benchmark flamegraph saved to flamegraph_js.svg");
+    }
+}
+
+#[cfg(not(target_os = "windows"))]
+fn run_benchmark_iterations(
+    processor: &Codebook,
+    content: &str,
+    language: LanguageType,
+    iterations: usize,
+    label: &str,
+    expected_misspellings: Option<usize>,
+) -> Duration {
     let start = Instant::now();
 
-    // Run spell_check multiple times
     for i in 1..=iterations {
         if i % 10 == 0 {
-            println!("Iteration {}/{}", i, iterations);
+            println!("{} iteration {}/{}", label, i, iterations);
         }
-        let _misspelled = processor.spell_check(sample_text, Some(LanguageType::Text), None);
-        assert!(_misspelled.len() == 262);
+        let misspelled = processor.spell_check(content, Some(language), None);
+
+        if let Some(expected) = expected_misspellings {
+            assert_eq!(misspelled.len(), expected);
+        }
     }
 
-    // Calculate duration
-    let duration = start.elapsed();
+    start.elapsed()
+}
+
+#[cfg(not(target_os = "windows"))]
+fn print_benchmark_results(name: &str, iterations: usize, duration: Duration) {
     let avg_time = duration.as_secs_f64() / iterations as f64;
 
-    println!("\nBenchmark Results:");
+    println!("\nBenchmark Results ({}):", name);
     println!("Total iterations: {}", iterations);
     println!("Total time: {:.2?}", duration);
     println!(
         "Average time per iteration: {:.6?}",
         Duration::from_secs_f64(avg_time)
     );
-    if let Ok(report) = guard.report().build() {
-        let file = File::create("flamegraph.svg").unwrap();
-        report.flamegraph(file).unwrap();
-    };
 }
