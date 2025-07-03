@@ -1,3 +1,7 @@
+[0.3.4]
+
+- Do not announce `diagnostic_provider` capability (PR #86)
+
 [0.3.3]
 
 - Fix the cargo release by moving test example files

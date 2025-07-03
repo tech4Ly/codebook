@@ -408,6 +408,7 @@ Run test with `make test` after cloning. Integration tests are also available wi
 
 To update the Language server:
 
+1. Update and commit changelog with new version number
 1. Run `make release-lsp`
 1. Follow instructions
 1. Wait for Actions to finish
