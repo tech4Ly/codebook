@@ -1,3 +1,7 @@
+[0.3.5]
+
+- Add support for Java
+
 [0.3.4]
 
 - Do not announce `diagnostic_provider` capability (PR #86)
