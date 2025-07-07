@@ -113,21 +113,22 @@ Codebook is in active development. As better dictionaries are added, words that 
 | C | ✅ |
 | CSS | ⚠️ |
 | Go | ⚠️ |
-| Haskell | ⚠️ |
 | HTML | ⚠️ |
+| Haskell | ⚠️ |
+| Java | ✅ |
 | JavaScript | ✅ |
 | Markdown | ✅ |
+| PHP | ⚠️ |
 | Plain Text | ✅ |
 | Python | ✅ |
-| PHP | ⚠️ |
 | Ruby | ✅ |
 | Rust | ✅ |
 | TOML | ✅ |
 | TypeScript | ✅ |
 
-✅ = Good to go
-⚠️ = Supported, but needs more testing
-❌ = Work has started, but there are issues
+✅ = Good to go.
+⚠️ = Supported, but needs more testing. Help us improve!
+❌ = Work has started, but there are issues.
 
 If Codebook is not marking issues you think it should, please file a GitHub issue!
 

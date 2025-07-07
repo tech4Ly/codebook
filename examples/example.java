@@ -1,4 +1,5 @@
 public class example {
+
     // single line comment with a spelling mistake: helllo
 
     /**
@@ -27,8 +28,7 @@ public class example {
     }
 
     // class declaration with a spelling mistake
-    class PointlessClasss {
-    }
+    class PointlessClasss {}
 
     public static void main(String[] args) {
         // catch formal parameter spelling mistake
