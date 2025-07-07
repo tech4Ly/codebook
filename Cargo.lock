@@ -541,7 +541,7 @@ checksum = "b94f61472cee1439c0b966b47e3aca9ae07e45d070759512cd390ea2bebc6675"
 
 [[package]]
 name = "codebook"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "codebook_config",
  "codebook_downloader",
@@ -580,7 +580,7 @@ dependencies = [
 
 [[package]]
 name = "codebook-lsp"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "cc",
  "clap",
@@ -600,7 +600,7 @@ dependencies = [
 
 [[package]]
 name = "codebook_config"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "dirs",
  "glob",
@@ -613,7 +613,7 @@ dependencies = [
 
 [[package]]
 name = "codebook_downloader"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "anyhow",
  "chrono",
@@ -712,7 +712,7 @@ dependencies = [
 
 [[package]]
 name = "dictionary-builder"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "anyhow",
  "chrono",
