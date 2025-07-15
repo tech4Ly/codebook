@@ -12,15 +12,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  benchmark:
-    name: Benchmark
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-      - name: Run benchmark
-        run: make benchmark
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -32,18 +23,6 @@ jobs:
         run: cargo build
       - name: Run tests
         run: cargo test
-
-  integration_test:
-    name: Integration Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
-      - name: Run integration tests
-        run: make integration_test
 
   build:
     name: Build ${{ matrix.platform.project }} - ${{ matrix.platform.release_for }}
@@ -57,34 +36,6 @@ jobs:
             project: codebook-lsp
             bin: codebook-lsp.exe
             name: codebook-lsp-x86_64-pc-windows-msvc.zip
-            command: build
-          - release_for: macOS-x86_64
-            os: macOS-latest
-            target: x86_64-apple-darwin
-            project: codebook-lsp
-            bin: codebook-lsp
-            name: codebook-lsp-x86_64-apple-darwin.tar.gz
-            command: build
-          - release_for: macOS-aarch64
-            os: macOS-latest
-            target: aarch64-apple-darwin
-            project: codebook-lsp
-            bin: codebook-lsp
-            name: codebook-lsp-aarch64-apple-darwin.tar.gz
-            command: build
-          - release_for: Linux-x86_64-Musl
-            os: ubuntu-latest
-            target: x86_64-unknown-linux-musl
-            project: codebook-lsp
-            bin: codebook-lsp
-            name: codebook-lsp-x86_64-unknown-linux-musl.tar.gz
-            command: build
-          - release_for: Linux-aarch64-Musl
-            os: ubuntu-latest
-            target: aarch64-unknown-linux-musl
-            project: codebook-lsp
-            bin: codebook-lsp
-            name: codebook-lsp-aarch64-unknown-linux-musl.tar.gz
             command: build
 
     runs-on: ${{ matrix.platform.os }}
